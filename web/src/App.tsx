@@ -1,9 +1,10 @@
 import { ThemeProvider } from "@/components";
+import { Router } from "@/routes";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-theme">
-      <h1>Welcome to SnippetX</h1>
+      <Router />
     </ThemeProvider>
   );
 }
