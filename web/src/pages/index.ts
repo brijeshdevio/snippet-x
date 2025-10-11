@@ -4,3 +4,4 @@ export * from "./Register";
 export * from "./Dashboard";
 export * from "./Snippets";
 export * from "./Snippet";
+export * from "./NewSnippet";

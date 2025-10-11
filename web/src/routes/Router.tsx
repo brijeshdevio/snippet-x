@@ -1,6 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthLayout, BaseLayout } from "@/layouts";
-import { Dashboard, Home, Login, Register, Snippet, Snippets } from "@/pages";
+import {
+  Dashboard,
+  Home,
+  Login,
+  NewSnippet,
+  Register,
+  Snippet,
+  Snippets,
+} from "@/pages";
 
 export function Router() {
   return (
@@ -11,6 +19,7 @@ export function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/snippets" element={<Snippets />} />
+          <Route path="/snippets/new" element={<NewSnippet />} />
           <Route path="/snippets/:snippetId" element={<Snippet />} />
         </Route>
 
