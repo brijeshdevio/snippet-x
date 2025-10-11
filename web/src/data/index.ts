@@ -149,6 +149,7 @@ export const snippets = [
       "A utility that limits how often a function can run. Useful for scroll handlers, window resizing, and rate-limited APIs.",
     tags: ["JavaScript", "Performance", "Frontend"],
     updated: "Updated 5 days ago",
+    language: "JavaScript",
   },
   {
     title: "Custom Hook: useFetch",
@@ -156,6 +157,7 @@ export const snippets = [
       "A reusable hook for fetching data inside React components. Handles loading, error states, and caching of responses.",
     tags: ["React", "API", "Hooks"],
     updated: "Updated 1 day ago",
+    language: "JavaScript",
   },
   {
     title: "API Request Wrapper",
@@ -163,6 +165,7 @@ export const snippets = [
       "A lightweight helper to centralize API calls with built-in retries, error normalization, and response parsing.",
     tags: ["JavaScript", "API", "Utilities"],
     updated: "Updated 3 days ago",
+    language: "JavaScript",
   },
   {
     title: "LocalStorage Sync",
@@ -170,6 +173,7 @@ export const snippets = [
       "A utility to sync state with LocalStorage, providing persistence across sessions with minimal boilerplate.",
     tags: ["JavaScript", "Storage", "Web"],
     updated: "Updated 8 hours ago",
+    language: "JavaScript",
   },
   {
     title: "React Memoization Patterns",
@@ -177,5 +181,6 @@ export const snippets = [
       "A collection of patterns using memo, useCallback, and useMemo to optimize component rendering performance.",
     tags: ["React", "Performance", "Memoization"],
     updated: "Updated 4 days ago",
+    language: "JavaScript",
   },
 ];
