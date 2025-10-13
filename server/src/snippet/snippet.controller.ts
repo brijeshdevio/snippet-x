@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { SnippetService } from './snippet.service';
 import { AuthGuard } from 'src/common';
 import { CreateSnippetDto } from './dto';
@@ -23,5 +31,18 @@ export class SnippetController {
     const createdBy = req.user.sub;
     const snippets = await this.snippetService.getSnippets(createdBy);
     return { snippets };
+  }
+
+  @Get(':id')
+  async handleGetSnippetById(
+    @Req() req: { user: { sub: string } },
+    @Param('id') snippetId: string,
+  ) {
+    const createdBy = req.user.sub;
+    const snippet = await this.snippetService.getSnippetById(
+      createdBy,
+      snippetId,
+    );
+    return { snippet };
   }
 }

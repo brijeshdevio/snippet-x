@@ -1,6 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { Snippet } from 'src/schema/snippet.schema';
 import { CreateSnippetDto } from './dto';
 
@@ -9,6 +13,13 @@ export class SnippetService {
   constructor(
     @InjectModel(Snippet.name) private readonly snippetModel: Model<Snippet>,
   ) {}
+
+  private isValidId(_id: string) {
+    if (isValidObjectId(_id)) {
+      return true;
+    }
+    throw new BadRequestException(`Invalid Snippet ID: ${_id}`);
+  }
 
   async createSnippet(
     createdBy: string,
@@ -27,5 +38,19 @@ export class SnippetService {
       .lean()
       .select('-__v -createdBy -createdAt -code');
     return snippets;
+  }
+
+  async getSnippetById(createdBy: string, snippetId: string): Promise<Snippet> {
+    this.isValidId(snippetId);
+
+    const snippet = await this.snippetModel
+      .findOne({ createdBy, _id: snippetId })
+      .lean()
+      .select('-__v -createdBy -createdAt');
+    if (snippet) {
+      return snippet;
+    }
+
+    throw new ForbiddenException('You do not have access to get this Snippet.');
   }
 }
