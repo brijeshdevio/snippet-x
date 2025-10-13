@@ -26,3 +26,23 @@ Content-Type: application/json
 ### GET - /api/users/profile
 GET http://localhost:3000/api/users/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
+
+
+### POST - /api/snippets
+POST http://localhost:3000/api/snippets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
+
+{
+  "title": "JavaScript Hello World",
+  "description": "A simple example demonstrating how to print a message to the console using JavaScript.",
+  "tags": ["JavaScript", "Beginner", "Basics"],
+  "code": "console.log('Hello, World!');",
+  "language": "JavaScript"
+}
+
+
+
+### GET - /api/snippets
+GET http://localhost:3000/api/snippets
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
