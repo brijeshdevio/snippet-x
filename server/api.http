@@ -50,3 +50,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZ
 ### GET - /api/snippets/:ID
 GET http://localhost:3000/api/snippets/68ebd22160baebca8543af18
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
+
+
+### PUT - /api/snippets/:ID
+PUT http://localhost:3000/api/snippets/68ebd22160baebca8543af18
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
+
+{
+  "title": "JavaScript Hello World"
+}

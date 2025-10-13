@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -44,5 +45,20 @@ export class SnippetController {
       snippetId,
     );
     return { snippet };
+  }
+
+  @Put(':id')
+  async handleUpdateSnippet(
+    @Req() req: { user: { sub: string } },
+    @Param('id') snippetId: string,
+    @Body() body: CreateSnippetDto,
+  ) {
+    const createdBy = req.user.sub;
+    const snippet = await this.snippetService.updateSnippet(
+      createdBy,
+      snippetId,
+      body,
+    );
+    return { snippet, message: 'Snippet updated successfully' };
   }
 }

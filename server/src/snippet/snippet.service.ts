@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 import { Snippet } from 'src/schema/snippet.schema';
-import { CreateSnippetDto } from './dto';
+import { CreateSnippetDto, UpdateSnippetDto } from './dto';
 
 @Injectable()
 export class SnippetService {
@@ -52,5 +52,30 @@ export class SnippetService {
     }
 
     throw new ForbiddenException('You do not have access to get this Snippet.');
+  }
+
+  async updateSnippet(
+    createdBy: string,
+    snippetId: string,
+    data: UpdateSnippetDto,
+  ): Promise<Snippet> {
+    const updatedSnippet = await this.snippetModel
+      .findOneAndUpdate(
+        {
+          createdBy,
+          _id: snippetId,
+        },
+        { ...data },
+        { new: true },
+      )
+      .lean()
+      .select('-__v -createdBy -createdAt -code');
+    if (updatedSnippet) {
+      return updatedSnippet;
+    }
+
+    throw new ForbiddenException(
+      'You do not have access to update this Snippet.',
+    );
   }
 }
