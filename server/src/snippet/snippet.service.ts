@@ -59,6 +59,8 @@ export class SnippetService {
     snippetId: string,
     data: UpdateSnippetDto,
   ): Promise<Snippet> {
+    this.isValidId(snippetId);
+
     const updatedSnippet = await this.snippetModel
       .findOneAndUpdate(
         {
@@ -76,6 +78,25 @@ export class SnippetService {
 
     throw new ForbiddenException(
       'You do not have access to update this Snippet.',
+    );
+  }
+
+  async deleteSnippetById(
+    createdBy: string,
+    snippetId: string,
+  ): Promise<Snippet> {
+    this.isValidId(snippetId);
+
+    const snippet = await this.snippetModel
+      .findOneAndDelete({ createdBy, _id: snippetId })
+      .lean()
+      .select('-__v -createdBy -createdAt');
+    if (snippet) {
+      return snippet;
+    }
+
+    throw new ForbiddenException(
+      'You do not have access to delete this Snippet.',
     );
   }
 }

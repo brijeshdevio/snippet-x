@@ -60,3 +60,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZ
 {
   "title": "JavaScript Hello World"
 }
+
+
+### DELETE - /api/snippets/:ID
+DELETE http://localhost:3000/api/snippets/68ebd16f60baebca8543af15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZDVkYzU0NDNkY2Y4ZDEzNzEiLCJpYXQiOjE3NjAyODM2MjksImV4cCI6MTc2MDM3MDAyOX0.11ESpLH4p5h28nWWvEbacfS5pwX1dH_Zys63uPXeIz8
+

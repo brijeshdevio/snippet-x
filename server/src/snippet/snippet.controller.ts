@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -60,5 +61,18 @@ export class SnippetController {
       body,
     );
     return { snippet, message: 'Snippet updated successfully' };
+  }
+
+  @Delete(':id')
+  async handleDeleteSnippetById(
+    @Req() req: { user: { sub: string } },
+    @Param('id') snippetId: string,
+  ) {
+    const createdBy = req.user.sub;
+    const snippet = await this.snippetService.deleteSnippetById(
+      createdBy,
+      snippetId,
+    );
+    return { snippet, message: 'Snippet deleted successfully.' };
   }
 }
