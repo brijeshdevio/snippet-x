@@ -9,6 +9,8 @@ import {
   Snippet,
   Snippets,
 } from "@/pages";
+import RestrictedRoute from "./RestrictedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 export function Router() {
   return (
@@ -17,16 +19,20 @@ export function Router() {
         {/* Base Layout */}
         <Route element={<BaseLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/snippets" element={<Snippets />} />
-          <Route path="/snippets/new" element={<NewSnippet />} />
-          <Route path="/snippets/:snippetId" element={<Snippet />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/snippets" element={<Snippets />} />
+            <Route path="/snippets/new" element={<NewSnippet />} />
+            <Route path="/snippets/:snippetId" element={<Snippet />} />
+          </Route>
         </Route>
 
         {/* Auth Layout */}
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route element={<RestrictedRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
