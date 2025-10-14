@@ -14,9 +14,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { languages, snippets, tags } from "@/data";
+import { languages, tags } from "@/data";
+import { useSnippet } from "@/hooks/useSnippet";
+import type { SnippetCardType } from "@/types/snippet";
+import { timeAgo } from "@/utils/timeAgo";
 
 export function Snippets() {
+  const { getSnippetsQuery } = useSnippet();
+
   return (
     <>
       {/* Header Section */}
@@ -83,7 +88,7 @@ export function Snippets() {
 
       {/* Snippets  Section */}
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-5">
-        {snippets?.map((snippet) => (
+        {getSnippetsQuery.data?.snippets?.map((snippet: SnippetCardType) => (
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between gap-2 mb-1">
@@ -103,8 +108,12 @@ export function Snippets() {
               </div>
               <Separator className="my-2" />
               <div className="flex items-center justify-between">
-                <p className="text-foreground/60 text-sm">{snippet.updated}</p>
-                <Button size={"sm"}>Open</Button>
+                <p className="text-foreground/60 text-sm">
+                  {timeAgo(snippet.updatedAt)}
+                </p>
+                <Link to={`/snippets/${snippet._id}`}>
+                  <Button size={"sm"}>Open</Button>
+                </Link>
               </div>
             </CardHeader>
           </Card>

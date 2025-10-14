@@ -5,3 +5,12 @@ export interface CreateSnippetType {
   description: string;
   tags: string[];
 }
+
+export interface SnippetCardType {
+  _id: string;
+  title: string;
+  language: string;
+  description: string;
+  updatedAt: string;
+  tags: string[];
+}
