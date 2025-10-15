@@ -21,7 +21,7 @@ export function useSnippet() {
     onSuccess: (data: AxiosResponse["data"]) => {
       const message = data.message;
       toast.success(message);
-      queryClient.invalidateQueries(["get-snippets"]);
+      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
     },
     onError: errorHandler,
   });
@@ -43,7 +43,7 @@ export function useSnippet() {
       console.log(data);
       const message = data.message;
       toast.success(message);
-      queryClient.invalidateQueries(["get-snippets"]);
+      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
     },
     onError: errorHandler,
   });
