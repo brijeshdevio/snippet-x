@@ -6,11 +6,19 @@ import { anOldHope as codeTheme } from "react-syntax-highlighter/dist/esm/styles
 import { useSnippet } from "@/hooks/useSnippet";
 import { timeAgo } from "@/utils/timeAgo";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function Snippet() {
   const { snippetId } = useParams();
-  const { getSnippetMutate } = useSnippet();
+  const { getSnippetMutate, deleteSnippetMutate } = useSnippet();
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (snippetId)
+      await deleteSnippetMutate.mutateAsync(snippetId).then(() => {
+        navigate("/snippets");
+      });
+  };
 
   useEffect(() => {
     if (snippetId) getSnippetMutate.mutate(snippetId);
@@ -52,8 +60,14 @@ export function Snippet() {
             <Button variant={"outline"} size={"sm"}>
               <Copy />
             </Button>
-            <Button variant={"destructive"} size={"sm"}>
-              <Trash2 />
+            <Button
+              variant={"destructive"}
+              size={"sm"}
+              onClick={handleDelete}
+              disabled={deleteSnippetMutate.isPending}
+              type="button"
+            >
+              {deleteSnippetMutate.isPending ? "Deleting..." : <Trash2 />}
             </Button>
           </div>
         </div>

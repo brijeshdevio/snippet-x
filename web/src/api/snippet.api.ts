@@ -9,3 +9,6 @@ export const getSnippets = async () =>
 
 export const getSnippet = async (id: string) =>
   (await axiosClient.get(`/snippets/${id}`)).data;
+
+export const deleteSnippet = async (id: string) =>
+  (await axiosClient.delete(`/snippets/${id}`)).data;

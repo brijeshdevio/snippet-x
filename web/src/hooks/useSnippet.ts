@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import { toast } from "sonner";
-import { createSnippet, getSnippet, getSnippets } from "@/api/snippet.api";
+import {
+  createSnippet,
+  deleteSnippet,
+  getSnippet,
+  getSnippets,
+} from "@/api/snippet.api";
 import type { CreateSnippetType } from "@/types/snippet";
 import { errorHandler } from "./utils";
 import { useParams } from "react-router-dom";
@@ -31,5 +36,22 @@ export function useSnippet() {
     mutationFn: async (id: string) => await getSnippet(id),
   });
 
-  return { createMutate, getSnippetsQuery, getSnippetMutate };
+  const deleteSnippetMutate = useMutation({
+    mutationKey: ["get-snippet", snippetId!],
+    mutationFn: async (id: string) => await deleteSnippet(id),
+    onSuccess: (data: AxiosResponse["data"]) => {
+      console.log(data);
+      const message = data.message;
+      toast.success(message);
+      queryClient.invalidateQueries(["get-snippets"]);
+    },
+    onError: errorHandler,
+  });
+
+  return {
+    createMutate,
+    getSnippetsQuery,
+    getSnippetMutate,
+    deleteSnippetMutate,
+  };
 }
