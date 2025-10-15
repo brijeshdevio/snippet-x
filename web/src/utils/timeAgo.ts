@@ -1,4 +1,4 @@
-export function timeAgo(dateString: string) {
+export function timeAgo(dateString: string, prefix: string = "Updated") {
   const now = new Date() as unknown as number;
   const past = new Date(dateString) as unknown as number;
   const seconds = Math.floor((now - past) / 1000);
@@ -17,9 +17,9 @@ export function timeAgo(dateString: string) {
     const value = intervals[key];
     if (seconds >= value) {
       const count = Math.floor(seconds / value);
-      return `Updated ${count} ${key}${count > 1 ? "s" : ""} ago`;
+      return `${prefix} ${count} ${key}${count > 1 ? "s" : ""} ago`;
     }
   }
 
-  return "just now";
+  return "Just Now";
 }

@@ -3,29 +3,46 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { anOldHope as codeTheme } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { snippet } from "@/data";
+import { useSnippet } from "@/hooks/useSnippet";
+import { timeAgo } from "@/utils/timeAgo";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export function Snippet() {
+  const { snippetId } = useParams();
+  const { getSnippetMutate } = useSnippet();
+
+  useEffect(() => {
+    if (snippetId) getSnippetMutate.mutate(snippetId);
+  }, [snippetId]);
+
+  if (getSnippetMutate.isPending) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <section className="flex flex-col gap-3 py-5">
         <div className="flex flex-col gap-1">
           <h1 className="text-xl font-bold tracking-tight md:text-3xl">
-            {snippet.title}
+            {getSnippetMutate.data?.snippet.title}
           </h1>
           <p className="font-normal text-foreground/60 text-sm">
-            Last updated: {snippet.updated}
+            Last Updated:{" "}
+            {timeAgo(getSnippetMutate.data?.snippet.updatedAt, "")}
           </p>
         </div>
         <div className="flex flex-wrap justify-between gap-3">
           <div className="flex flex-wrap gap-2">
-            {snippet.tags?.map((tag, index: number) => (
-              <>
-                <Badge key={index} variant={"secondary"}>
-                  {tag}
-                </Badge>
-              </>
-            ))}
+            {getSnippetMutate.data?.snippet.tags?.map(
+              (tag: string, index: number) => (
+                <>
+                  <Badge key={index} variant={"secondary"}>
+                    {tag}
+                  </Badge>
+                </>
+              )
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             <Button size={"sm"}>
@@ -42,12 +59,14 @@ export function Snippet() {
         </div>
         <div className="rounded overflow-hidden border text-sm">
           <SyntaxHighlighter language="javascript" style={codeTheme}>
-            {snippet.code}
+            {getSnippetMutate.data?.snippet.code}
           </SyntaxHighlighter>
         </div>
         <div>
           <h2 className="text-lg font-semibold">Note/Description</h2>
-          <p className="text-foreground/80">{snippet.description}</p>
+          <p className="text-foreground/80">
+            {getSnippetMutate.data?.snippet.description}
+          </p>
         </div>
       </section>
     </>
