@@ -1,4 +1,4 @@
-import { Braces } from "lucide-react";
+import { Braces, Clock, CodeXml, Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,32 +12,61 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { languages, snippets, stats, tags } from "@/data";
+import { languages, tags } from "@/data";
+import { useSnippet } from "@/hooks/useSnippet";
+import type { StatCardProps } from "@/types";
+import type { SnippetCardType } from "@/types/snippet";
+import { timeAgo } from "@/utils/timeAgo";
+import { Link } from "react-router-dom";
+
+function StatCard({ Icon, title, count }: StatCardProps) {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex gap-3">
+          <div>
+            <div className="p-2 bg-primary/50 w-fit rounded">
+              <Icon />
+            </div>
+          </div>
+          <div>
+            <h4 className="text-md text-foreground/80">{title}</h4>
+            <h2 className="text-2xl font-semibold">{count}</h2>
+          </div>
+        </div>
+      </CardHeader>
+    </Card>
+  );
+}
 
 export function Dashboard() {
+  const { getSnippetStatsQuery: stats } = useSnippet();
+  if (stats.isPending) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       {/* Stats Section */}
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <>
-          {stats?.map((stat, index: number) => (
-            <Card key={index}>
-              <CardHeader>
-                <div className="flex gap-3">
-                  <div>
-                    <div className="p-2 bg-primary/50 w-fit rounded">
-                      <stat.Icon size={20} />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-md text-foreground/80">{stat.title}</h4>
-                    <h2 className="text-2xl font-semibold">{stat.count}</h2>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-          ))}
-        </>
+        <StatCard
+          Icon={CodeXml}
+          title="Total Snippets"
+          count={stats.data?.totalCount}
+          key={"total-snippets"}
+        />
+        <StatCard
+          Icon={Terminal}
+          title="Language Count"
+          count={stats.data?.languageCount}
+          key={"language-count"}
+        />
+        <StatCard
+          Icon={Clock}
+          title="Recent Activity"
+          count={stats.data?.recentActivity}
+          key={"recent-activity"}
+        />
       </section>
 
       {/* Snippets Filter Section */}
@@ -72,8 +101,8 @@ export function Dashboard() {
 
       {/* Snippets  Section */}
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-5">
-        {snippets?.map((snippet) => (
-          <Card>
+        {stats.data?.recentSnippets?.map((snippet: SnippetCardType) => (
+          <Card key={snippet._id}>
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Braces className="text-primary" size={20} />
@@ -91,8 +120,12 @@ export function Dashboard() {
               </div>
               <Separator className="my-2" />
               <div className="flex items-center justify-between">
-                <p className="text-foreground/60 text-sm">{snippet.updated}</p>
-                <Button size={"sm"}>Open</Button>
+                <p className="text-foreground/60 text-sm">
+                  {timeAgo(snippet.updatedAt)}
+                </p>
+                <Link to={`/snippets/${snippet._id}`}>
+                  <Button size={"sm"}>Open</Button>
+                </Link>
               </div>
             </CardHeader>
           </Card>

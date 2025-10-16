@@ -6,6 +6,7 @@ import {
   deleteSnippet,
   getSnippet,
   getSnippets,
+  getSnippetStats,
 } from "@/api/snippet.api";
 import type { CreateSnippetType } from "@/types/snippet";
 import { errorHandler } from "./utils";
@@ -48,10 +49,16 @@ export function useSnippet() {
     onError: errorHandler,
   });
 
+  const getSnippetStatsQuery = useQuery({
+    queryKey: ["get-stats"],
+    queryFn: async () => await getSnippetStats(),
+  });
+
   return {
     createMutate,
     getSnippetsQuery,
     getSnippetMutate,
     deleteSnippetMutate,
+    getSnippetStatsQuery,
   };
 }

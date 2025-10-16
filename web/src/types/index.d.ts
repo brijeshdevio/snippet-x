@@ -9,3 +9,9 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   loading: boolean;
 }
+
+export interface StatCardProps {
+  Icon: React.ComponentType;
+  title: string;
+  count: number;
+}
