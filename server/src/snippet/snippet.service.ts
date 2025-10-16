@@ -99,4 +99,50 @@ export class SnippetService {
       'You do not have access to delete this Snippet.',
     );
   }
+
+  async statsSnippet(createdBy: string) {
+    // 1. Total count of snippets
+    const totalCount = await this.snippetModel.countDocuments({ createdBy });
+
+    // 2. Language usage stats
+    const languages = await this.snippetModel.aggregate([
+      { $match: { createdBy } },
+      {
+        $group: {
+          _id: '$language',
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { count: -1 } },
+    ]);
+
+    // 👉 Distinct language count
+    const languageCount = languages.length;
+
+    // 3. Recently created snippets (latest 10)
+    const recentSnippets = await this.snippetModel
+      .find({ createdBy })
+      .lean()
+      .select('-__v -createdAt -createdBy -code')
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    // 4. Recent 1-week activity (created OR updated)
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    const recentActivity = await this.snippetModel.countDocuments({
+      createdBy,
+      $or: [
+        { createdAt: { $gte: oneWeekAgo } },
+        { updatedAt: { $gte: oneWeekAgo } },
+      ],
+    });
+
+    return {
+      totalCount,
+      languageCount,
+      recentSnippets,
+      recentActivity,
+    };
+  }
 }

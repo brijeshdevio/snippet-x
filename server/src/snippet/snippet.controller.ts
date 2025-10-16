@@ -35,6 +35,13 @@ export class SnippetController {
     return { snippets };
   }
 
+  @Get('stats')
+  async handleGetStats(@Req() req: { user: { sub: string } }) {
+    const createdBy = req.user.sub;
+    const result = await this.snippetService.statsSnippet(createdBy);
+    return result;
+  }
+
   @Get(':id')
   async handleGetSnippetById(
     @Req() req: { user: { sub: string } },
