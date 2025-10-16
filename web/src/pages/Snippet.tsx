@@ -7,6 +7,7 @@ import { useSnippet } from "@/hooks/useSnippet";
 import { timeAgo } from "@/utils/timeAgo";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export function Snippet() {
   const { snippetId } = useParams();
@@ -18,6 +19,14 @@ export function Snippet() {
       await deleteSnippetMutate.mutateAsync(snippetId).then(() => {
         navigate("/snippets");
       });
+  };
+
+  const handleCopyCode = () => {
+    const code = getSnippetMutate.data?.snippet?.code;
+    if (code) {
+      navigator.clipboard.writeText(code);
+      toast.success("Code copy into clipboard.");
+    }
   };
 
   useEffect(() => {
@@ -57,7 +66,7 @@ export function Snippet() {
               <Pen />
               <span>Edit</span>
             </Button>
-            <Button variant={"outline"} size={"sm"}>
+            <Button variant={"outline"} size={"sm"} onClick={handleCopyCode}>
               <Copy />
             </Button>
             <Button
