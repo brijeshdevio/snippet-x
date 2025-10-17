@@ -16,7 +16,11 @@ export class AuthController {
   @Post('login')
   async handleLogin(@Body() body: LoginDto, @Res() res: Response) {
     const { accessToken } = await this.authService.login(body);
-    res.cookie('access_token', accessToken, { httpOnly: true, secure: false });
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
     res.json({ accessToken, message: 'Logged in successfully.' });
   }
 }
