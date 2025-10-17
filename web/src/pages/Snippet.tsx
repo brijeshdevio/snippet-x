@@ -8,6 +8,7 @@ import { timeAgo } from "@/utils/timeAgo";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { Loader } from "@/components";
 
 export function Snippet() {
   const { snippetId } = useParams();
@@ -34,7 +35,7 @@ export function Snippet() {
   }, [snippetId]);
 
   if (getSnippetMutate.isPending) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

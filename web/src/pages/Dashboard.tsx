@@ -18,6 +18,7 @@ import type { StatCardProps } from "@/types";
 import type { SnippetCardType } from "@/types/snippet";
 import { timeAgo } from "@/utils/timeAgo";
 import { Link } from "react-router-dom";
+import { Loader } from "@/components";
 
 function StatCard({ Icon, title, count }: StatCardProps) {
   return (
@@ -41,8 +42,9 @@ function StatCard({ Icon, title, count }: StatCardProps) {
 
 export function Dashboard() {
   const { getSnippetStatsQuery: stats } = useSnippet();
+
   if (stats.isPending) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

@@ -18,9 +18,14 @@ import { languages, tags } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import type { SnippetCardType } from "@/types/snippet";
 import { timeAgo } from "@/utils/timeAgo";
+import { Loader } from "@/components";
 
 export function Snippets() {
   const { getSnippetsQuery } = useSnippet();
+
+  if (getSnippetsQuery.isPending) {
+    return <Loader />;
+  }
 
   return (
     <>
