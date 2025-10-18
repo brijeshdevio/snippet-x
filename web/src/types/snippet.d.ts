@@ -14,3 +14,9 @@ export interface SnippetCardType {
   updatedAt: string;
   tags: string[];
 }
+
+export interface SnippetQuery {
+  search?: string;
+  language?: string;
+  tag?: string;
+}

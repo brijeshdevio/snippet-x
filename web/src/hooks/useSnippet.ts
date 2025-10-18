@@ -8,7 +8,7 @@ import {
   getSnippets,
   getSnippetStats,
 } from "@/api/snippet.api";
-import type { CreateSnippetType } from "@/types/snippet";
+import type { CreateSnippetType, SnippetQuery } from "@/types/snippet";
 import { errorHandler } from "./utils";
 import { useParams } from "react-router-dom";
 
@@ -27,9 +27,9 @@ export function useSnippet() {
     onError: errorHandler,
   });
 
-  const getSnippetsQuery = useQuery({
-    queryKey: ["get-snippets"],
-    queryFn: async () => await getSnippets(),
+  const getSnippetsMutate = useMutation({
+    mutationKey: ["get-snippets"],
+    mutationFn: async (data: SnippetQuery) => await getSnippets(data),
   });
 
   const getSnippetMutate = useMutation({
@@ -56,7 +56,7 @@ export function useSnippet() {
 
   return {
     createMutate,
-    getSnippetsQuery,
+    getSnippetsMutate,
     getSnippetMutate,
     deleteSnippetMutate,
     getSnippetStatsQuery,

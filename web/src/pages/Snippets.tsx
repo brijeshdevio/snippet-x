@@ -16,14 +16,24 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { languages, tags } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
-import type { SnippetCardType } from "@/types/snippet";
+import type { SnippetCardType, SnippetQuery } from "@/types/snippet";
 import { timeAgo } from "@/utils/timeAgo";
 import { Loader } from "@/components";
+import { useEffect, useState } from "react";
 
 export function Snippets() {
-  const { getSnippetsQuery } = useSnippet();
+  const { getSnippetsMutate } = useSnippet();
+  const [query, setQuery] = useState<SnippetQuery | null>(null);
 
-  if (getSnippetsQuery.isPending) {
+  useEffect(() => {
+    getSnippetsMutate.mutate(query as SnippetQuery);
+  }, [query]);
+
+  useEffect(() => {
+    getSnippetsMutate.mutate(query as SnippetQuery);
+  }, []);
+
+  if (getSnippetsMutate.isPending) {
     return <Loader />;
   }
 
@@ -61,7 +71,11 @@ export function Snippets() {
             />
           </label>
           <div className="flex flex-wrap gap-3">
-            <Select>
+            <Select
+              onValueChange={(value) =>
+                setQuery((pre) => ({ ...pre, language: value }))
+              }
+            >
               <SelectTrigger className="max-w-[180px]">
                 <SelectValue placeholder="Languages" />
               </SelectTrigger>
@@ -74,7 +88,11 @@ export function Snippets() {
                 ))}
               </SelectContent>
             </Select>
-            <Select>
+            <Select
+              onValueChange={(value) =>
+                setQuery((pre) => ({ ...pre, tag: value }))
+              }
+            >
               <SelectTrigger className="max-w-[180px]">
                 <SelectValue placeholder="Tags" />
               </SelectTrigger>
@@ -93,7 +111,7 @@ export function Snippets() {
 
       {/* Snippets  Section */}
       <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-5">
-        {getSnippetsQuery.data?.snippets?.map((snippet: SnippetCardType) => (
+        {getSnippetsMutate.data?.snippets?.map((snippet: SnippetCardType) => (
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between gap-2 mb-1">
