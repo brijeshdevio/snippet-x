@@ -2,17 +2,7 @@ import { Braces, Clock, CodeXml, Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { languages, tags } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import type { StatCardProps } from "@/types";
 import type { SnippetCardType } from "@/types/snippet";
@@ -71,34 +61,8 @@ export function Dashboard() {
         />
       </section>
 
-      {/* Snippets Filter Section */}
       <section className="w-full flex items-center gap-4 py-5">
-        <Select>
-          <SelectTrigger className="max-w-[180px]">
-            <SelectValue placeholder="Languages" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Language</SelectLabel>
-            </SelectGroup>
-            {languages?.map((language) => (
-              <SelectItem value={language}>{language}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="max-w-[180px]">
-            <SelectValue placeholder="Tags" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Tags</SelectLabel>
-            </SelectGroup>
-            {tags?.map((tag) => (
-              <SelectItem value={tag}>{tag}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <h2 className="text-xl md:text-2xl font-semibold">Recent Snippets</h2>
       </section>
 
       {/* Snippets  Section */}
