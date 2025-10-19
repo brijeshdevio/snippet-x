@@ -19,11 +19,37 @@ import { useSnippet } from "@/hooks/useSnippet";
 import type { SnippetCardType, SnippetQuery } from "@/types/snippet";
 import { timeAgo } from "@/utils/timeAgo";
 import { Loader } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 
 export function Snippets() {
   const { getSnippetsMutate } = useSnippet();
   const [query, setQuery] = useState<SnippetQuery | null>(null);
+  const queryRef = useRef({ value: "", isActive: true });
+  const timeoutRef = useRef<any>(null);
+
+  const debounce = () => {
+    // Clear the previous timeout BEFORE creating a new one
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      console.log(queryRef.current.value);
+      queryRef.current.isActive = true;
+      setQuery((pre) => ({ ...pre, search: queryRef.current.value }));
+    }, 200);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    queryRef.current.value = e.target.value;
+
+    // If active, deactivate and restart debounce timer
+    if (queryRef.current.isActive) {
+      queryRef.current.isActive = false;
+    }
+
+    debounce();
+  };
 
   useEffect(() => {
     getSnippetsMutate.mutate(query as SnippetQuery);
@@ -68,6 +94,7 @@ export function Snippets() {
               placeholder="Search snippets by keyword..."
               type="search"
               className="indent-8"
+              onChange={handleChange}
             />
           </label>
           <div className="flex flex-wrap gap-3">
