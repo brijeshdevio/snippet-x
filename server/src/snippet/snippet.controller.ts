@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { SnippetService } from './snippet.service';
 import { AuthGuard } from 'src/common';
-import { CreateSnippetDto } from './dto';
+import { CreateSnippetDto, QueryDto } from './dto';
 
 @UseGuards(AuthGuard)
 @Controller('snippets')
@@ -29,9 +29,14 @@ export class SnippetController {
   }
 
   @Get()
-  async handleGetSnippets(@Req() req: { user: { sub: string } }) {
+  async handleGetSnippets(
+    @Req() req: { user: { sub: string }; query: QueryDto },
+  ) {
     const createdBy = req.user.sub;
-    const snippets = await this.snippetService.getSnippets(createdBy);
+    const snippets = await this.snippetService.getSnippets(
+      createdBy,
+      req.query,
+    );
     return { snippets };
   }
 

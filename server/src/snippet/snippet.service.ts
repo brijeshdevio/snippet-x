@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 import { Snippet } from 'src/schema/snippet.schema';
-import { CreateSnippetDto, UpdateSnippetDto } from './dto';
+import { CreateSnippetDto, QueryDto, UpdateSnippetDto } from './dto';
 
 @Injectable()
 export class SnippetService {
@@ -32,9 +32,43 @@ export class SnippetService {
     return newSnippet;
   }
 
-  async getSnippets(createdBy: string): Promise<Snippet[]> {
+  async getSnippets(createdBy: string, queries: QueryDto): Promise<Snippet[]> {
+    const query: Record<string, any> = { createdBy };
+    const queryList: Record<string, any>[] = [];
+
+    if (queries?.search) {
+      queryList.push({
+        title: {
+          $regex: queries.search,
+          $options: 'i',
+        },
+      });
+    }
+
+    if (queries?.language) {
+      queryList.push({
+        language: {
+          $regex: queries.language,
+          $options: 'i',
+        },
+      });
+    }
+
+    if (queries?.tag) {
+      queryList.push({
+        tags: {
+          $regex: queries.tag,
+          $options: 'i',
+        },
+      });
+    }
+
+    if (queryList.length > 0) {
+      query.$and = queryList;
+    }
+
     const snippets = await this.snippetModel
-      .find({ createdBy })
+      .find(query)
       .lean()
       .select('-__v -createdBy -createdAt -code');
     return snippets;
