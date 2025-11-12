@@ -184,3 +184,25 @@ export const snippets = [
     language: "JavaScript",
   },
 ];
+
+export const snippet = {
+  _id: "snip_" + Math.random().toString(36).slice(2),
+  title: "Debounce Function",
+  language: "JavaScript",
+  description:
+    "A utility function that delays invoking a callback until after a pause in rapid events—useful for search inputs, resize handlers, and performance optimization.",
+  tags: ["JavaScript", "API", "React"],
+  updated: "2 days ago",
+  code: `function debounce(fn, delay = 300) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+// Example:
+const handleInput = debounce((value) => {
+  console.log("Search:", value);
+}, 500);`,
+};
