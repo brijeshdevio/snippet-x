@@ -1,9 +1,19 @@
-import "./App.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
+import { AuthProvider } from "@/auth";
+import { Router } from "@/routes";
+import "@/App.css";
 
 function App() {
   return (
     <>
-      <h1 className="text-5xl">SnippetX</h1>
+      <QueryClientProvider client={new QueryClient()}>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </QueryClientProvider>
+
+      <Toaster />
     </>
   );
 }
