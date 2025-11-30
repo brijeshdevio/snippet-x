@@ -1,4 +1,0 @@
-export * from "./theme-provider";
-export * from "./Navbar";
-export * from "./Footer";
-export * from "./Loader";
