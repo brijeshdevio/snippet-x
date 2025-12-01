@@ -206,3 +206,31 @@ const handleInput = debounce((value) => {
   console.log("Search:", value);
 }, 500);`,
 };
+
+export const snippetFolders = [
+  "React",
+  "ReactHooks",
+  "NextJS",
+  "NodeJS",
+  "Express",
+  "API",
+  "Database",
+  "SQL",
+  "MongoDB",
+  "Auth",
+  "UI",
+  "Components",
+  "Styles",
+  "CSS",
+  "Tailwind",
+  "Utils",
+  "Helpers",
+  "Algorithms",
+  "Validation",
+  "Testing",
+  "Types",
+  "ErrorHandling",
+  "Config",
+  "Performance",
+  "Animations",
+];

@@ -30,15 +30,15 @@ export function Router() {
           </Route>
         </Route>
 
-        <Route element={<ProtectedRoute />}>
-          <Route element={<ProtectLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/new" element={<NewSnippet />} />
-            <Route path="/trash" element={<TrashSnippets />} />
-            <Route path="/snippets/:SNIPPET_ID" element={<SingleSnippet />} />
-            <Route path="/:SNIPPET_ID" element={<EditSnippet />} />
-          </Route>
+        {/* <Route element={<BaseLayout />}> */}
+        <Route element={<ProtectLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/new" element={<NewSnippet />} />
+          <Route path="/trash" element={<TrashSnippets />} />
+          <Route path="/snippets/:SNIPPET_ID" element={<SingleSnippet />} />
+          <Route path="/:SNIPPET_ID" element={<EditSnippet />} />
         </Route>
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );
