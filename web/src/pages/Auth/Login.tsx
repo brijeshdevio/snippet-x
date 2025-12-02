@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { Blocks } from "lucide-react";
+import { useLogin } from "@/hooks/useAuth";
+import type { FormEvent } from "react";
+import type { LoginType } from "@/types/auth";
 
 const formFields = [
   {
@@ -17,6 +20,15 @@ const formFields = [
 ];
 
 export function Login() {
+  const { mutate, isPending } = useLogin();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    mutate(data as unknown as LoginType);
+  };
+
   return (
     <section className="w-full max-w-[350px]">
       <div>
@@ -37,7 +49,7 @@ export function Login() {
               Log in to your account
             </p>
           </div>
-          <form className="flex flex-col gap-3">
+          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             {formFields?.map((field) => (
               <div key={field.name}>
                 <label htmlFor={field.name}>{field.label}</label>
@@ -51,8 +63,16 @@ export function Login() {
                 />
               </div>
             ))}
-            <button type="submit" className="btn btn-primary">
-              Login
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
           <div className="text-center">

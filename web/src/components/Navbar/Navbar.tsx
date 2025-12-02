@@ -38,10 +38,10 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/dashboard" className="btn btn-primary btn-sm">
+              <Link to="/register" className="btn btn-primary btn-sm">
                 Register
               </Link>
-              <Link to="/dashboard" className="btn btn-ghost btn-sm">
+              <Link to="/login" className="btn btn-ghost btn-sm">
                 Log in
               </Link>
             </>

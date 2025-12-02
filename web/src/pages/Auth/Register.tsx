@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { Blocks } from "lucide-react";
+import { useRegister } from "@/hooks/useAuth";
+import type { FormEvent } from "react";
+import type { RegisterType } from "@/types/auth";
 
 const formFields = [
   {
@@ -23,6 +26,15 @@ const formFields = [
 ];
 
 export function Register() {
+  const { mutate, isPending } = useRegister();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    mutate(data as unknown as RegisterType);
+  };
+
   return (
     <section className="w-full max-w-[350px]">
       <div>
@@ -43,7 +55,7 @@ export function Register() {
               Sign up for an account
             </p>
           </div>
-          <form className="flex flex-col gap-3">
+          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             {formFields?.map((field) => (
               <div key={field.name}>
                 <label htmlFor={field.name}>{field.label}</label>
@@ -57,8 +69,16 @@ export function Register() {
                 />
               </div>
             ))}
-            <button type="submit" className="btn btn-primary">
-              Register
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Register"
+              )}
             </button>
           </form>
           <div className="text-center">
