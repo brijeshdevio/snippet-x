@@ -7,7 +7,7 @@ export function ProtectLayout() {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <main className="w-full sm:w-[90%] mx-auto py-5 px-3 sm:px-5">
+        <main className="w-full pb-5 h-[calc(100vh-57px)] overflow-y-scroll">
           <Outlet />
         </main>
       </div>

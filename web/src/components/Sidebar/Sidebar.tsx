@@ -62,7 +62,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-80 h-[calc(100vh-57px)] flex flex-col gap-5 p-3 bg-base-100 border-r border-white/5">
+    <aside className="w-80 h-[calc(100vh-57px)] hidden md:flex flex-col gap-5 p-3 bg-base-100 border-r border-white/5 ">
       <div className="text-center px-3">
         <button className="btn btn-primary btn-sm w-full">
           <Plus size={20} />

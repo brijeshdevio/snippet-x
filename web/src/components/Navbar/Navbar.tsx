@@ -16,7 +16,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <Link to="/dashboard" className="btn btn-sm">
             Dashboard
           </Link>
@@ -25,7 +25,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="hidden md:flex items-center gap-3 ml-auto">
           <form>
             <label className="input min-w-[300px]">
               <Search size={20} className="opacity-70" />

@@ -142,48 +142,69 @@ export const tags = [
   "websocket",
 ];
 
-export const snippets = [
-  {
-    title: "Throttle Function",
-    description:
-      "A utility that limits how often a function can run. Useful for scroll handlers, window resizing, and rate-limited APIs.",
-    tags: ["JavaScript", "Performance", "Frontend"],
-    updated: "Updated 5 days ago",
-    language: "JavaScript",
-  },
-  {
-    title: "Custom Hook: useFetch",
-    description:
-      "A reusable hook for fetching data inside React components. Handles loading, error states, and caching of responses.",
-    tags: ["React", "API", "Hooks"],
-    updated: "Updated 1 day ago",
-    language: "JavaScript",
-  },
-  {
-    title: "API Request Wrapper",
-    description:
-      "A lightweight helper to centralize API calls with built-in retries, error normalization, and response parsing.",
-    tags: ["JavaScript", "API", "Utilities"],
-    updated: "Updated 3 days ago",
-    language: "JavaScript",
-  },
-  {
-    title: "LocalStorage Sync",
-    description:
-      "A utility to sync state with LocalStorage, providing persistence across sessions with minimal boilerplate.",
-    tags: ["JavaScript", "Storage", "Web"],
-    updated: "Updated 8 hours ago",
-    language: "JavaScript",
-  },
-  {
-    title: "React Memoization Patterns",
-    description:
-      "A collection of patterns using memo, useCallback, and useMemo to optimize component rendering performance.",
-    tags: ["React", "Performance", "Memoization"],
-    updated: "Updated 4 days ago",
-    language: "JavaScript",
-  },
+// Mock data pools
+const titles = [
+  "Debounce Function",
+  "React useFetch Hook",
+  "JWT Auth Middleware",
+  "Array Chunk Utility",
+  "Next.js API Route",
+  "String Formatter",
+  "MongoDB Query Helper",
+  "Promise Retry Logic",
+  "CSS Center Trick",
+  "Node File Uploader",
 ];
+
+const descriptions = [
+  "A handy utility to optimize performance.",
+  "Useful for API handling in frontend apps.",
+  "Reusable logic for backend authentication.",
+  "A snippet for manipulating arrays efficiently.",
+  "Commonly used pattern in frontend projects.",
+  "Lightweight helper used in multiple modules.",
+  "Performance optimized implementation.",
+  "Short and clean example for everyday use.",
+];
+
+const tagPool = [
+  "react",
+  "utils",
+  "hooks",
+  "node",
+  "api",
+  "auth",
+  "css",
+  "array",
+  "performance",
+  "frontend",
+  "backend",
+];
+
+// Helper to pick random item
+const r = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+// Helper for random ID
+const randomId = () => crypto.randomUUID();
+
+// Generate a random snippet
+export function generateSnippet() {
+  return {
+    _id: randomId(),
+    title: r(titles),
+    language: r(languages),
+    description: r(descriptions),
+    updatedAt: new Date(Date.now() - Math.random() * 1e10).toISOString(),
+    tags: Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () =>
+      r(tagPool)
+    ).filter((v, i, a) => a.indexOf(v) === i), // remove duplicates
+  };
+}
+
+// Generate multiple snippets
+export function generateSnippets(count = 5) {
+  return Array.from({ length: count }, generateSnippet);
+}
 
 export const snippet = {
   _id: "snip_" + Math.random().toString(36).slice(2),
