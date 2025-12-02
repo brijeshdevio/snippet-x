@@ -1,18 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError, type AxiosResponse } from "axios";
+import { type AxiosResponse } from "axios";
 import { toast } from "sonner";
 import { login, register } from "@/services/auth.service";
 import type { LoginType, RegisterType } from "@/types/auth";
-
-function errorHandler(error: unknown) {
-  if (isAxiosError(error)) {
-    let message = error?.response?.data?.message || error?.message;
-    if (Array.isArray(message)) {
-      message = message?.join(" ");
-    }
-    toast.error(message);
-  }
-}
+import { errorHandler } from "@/utils";
 
 export function useRegister() {
   const mutation = useMutation({
