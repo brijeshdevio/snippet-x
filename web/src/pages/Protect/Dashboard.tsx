@@ -30,7 +30,7 @@ export function Dashboard() {
       <section className="py-3 bg-base-100 border-t border-b border-white/5">
         <div className="w-full sm:w-[90%] mx-auto px-3 ">
           <form>
-            <label className="input w-full sm:w-[500px]">
+            <label className="input w-full max-w-[500px]">
               <Search size={20} className="opacity-70" />
               <input type="text" placeholder="Search public snippets..." />
             </label>
