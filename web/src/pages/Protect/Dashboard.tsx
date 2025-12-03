@@ -1,8 +1,17 @@
+import { useEffect } from "react";
 import { Search } from "lucide-react";
 import { SnippetCard } from "@/components";
-import { generateSnippets } from "@/data";
+// import { generateSnippets } from "@/data";
+import { useSnippet } from "@/hooks/useSnippet";
+import type { SnippetCardType } from "@/types/snippet";
 
 export function Dashboard() {
+  const { snippetsQueryMutation } = useSnippet();
+
+  useEffect(() => {
+    snippetsQueryMutation.mutate();
+  }, []);
+
   return (
     <>
       <section>
@@ -28,9 +37,11 @@ export function Dashboard() {
       </section>
 
       <section className="w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5">
-        {generateSnippets(10)?.map((snippet) => (
-          <SnippetCard key={snippet.title} {...snippet} />
-        ))}
+        {snippetsQueryMutation.data?.snippets?.map(
+          (snippet: SnippetCardType) => (
+            <SnippetCard key={snippet._id} {...snippet} />
+          )
+        )}
       </section>
     </>
   );

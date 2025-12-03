@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import { toast } from "sonner";
-import { createSnippet } from "@/services/snippet.service";
+import { createSnippet, getSnippets } from "@/services/snippet.service";
 import type { CreateSnippetType } from "@/types/snippet";
 import { errorHandler } from "@/utils";
 
@@ -19,7 +19,13 @@ export function useSnippet() {
     onError: errorHandler,
   });
 
+  const snippetsQueryMutation = useMutation({
+    mutationKey: ["get-snippets"],
+    mutationFn: async () => await getSnippets(),
+  });
+
   return {
     createSnippetMutation,
+    snippetsQueryMutation,
   };
 }
