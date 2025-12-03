@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   createSnippet,
+  deleteSnippet,
   getSnippet,
   getSnippets,
 } from "@/services/snippet.service";
@@ -35,9 +36,21 @@ export function useSnippet() {
     mutationFn: async () => await getSnippet(SNIPPET_ID!),
   });
 
+  const deleteSnippetMutation = useMutation({
+    mutationKey: ["delete-snippet", SNIPPET_ID!],
+    mutationFn: async () => await deleteSnippet(SNIPPET_ID!),
+    onSuccess: (data: AxiosResponse["data"]) => {
+      const message = data.message;
+      toast.success(message);
+      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
+    },
+    onError: errorHandler,
+  });
+
   return {
     createSnippetMutation,
     snippetsQueryMutation,
     snippetQueryMutation,
+    deleteSnippetMutation,
   };
 }

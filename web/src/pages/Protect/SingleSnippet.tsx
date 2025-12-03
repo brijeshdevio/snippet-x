@@ -7,13 +7,19 @@ import { timeAgo } from "@/utils/timeAgo";
 import { useSnippet } from "@/hooks/useSnippet";
 import { Loader } from "@/components";
 import type { SnippetType } from "@/types/snippet";
+import { useNavigate } from "react-router-dom";
 
 export function SingleSnippet() {
-  const { snippetQueryMutation } = useSnippet();
+  const { snippetQueryMutation, deleteSnippetMutation } = useSnippet();
   const [isLineNumber, setIsLineNumber] = useState(false);
   const [isWrapCode, setIsWrapCode] = useState(false);
+  const navigate = useNavigate();
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    await deleteSnippetMutation.mutateAsync().finally(() => {
+      navigate("/dashboard");
+    });
+  };
 
   const handleCopyCode = () => {
     const code = snippet.code;
@@ -73,8 +79,13 @@ export function SingleSnippet() {
             <button
               className="btn btn-sm btn-circle text-error"
               onClick={handleDelete}
+              disabled={deleteSnippetMutation.isPending}
             >
-              <Trash size={17} />
+              {deleteSnippetMutation.isPending ? (
+                <span className="loading loading-spinner text-error"></span>
+              ) : (
+                <Trash size={17} />
+              )}
             </button>
           </div>
         </div>
