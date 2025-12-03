@@ -3,9 +3,11 @@ import { Search } from "lucide-react";
 import { SnippetCard } from "@/components";
 // import { generateSnippets } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
+import { useAuth } from "@/auth";
 import type { SnippetCardType } from "@/types/snippet";
 
 export function Dashboard() {
+  const { user } = useAuth();
   const { snippetsQueryMutation } = useSnippet();
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export function Dashboard() {
       <section>
         <div className="w-full sm:w-[90%] mx-auto px-3 py-5">
           <h2 className="text-3xl">
-            Welcome, <strong className="text-primary">Jasmine</strong>
+            Welcome, <strong className="text-primary">{user?.name}</strong>
           </h2>
           <p className="text-base font-normal opacity-70">
             Efficiently browse and manage your code snippet collection.
