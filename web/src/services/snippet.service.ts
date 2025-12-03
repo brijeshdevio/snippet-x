@@ -12,3 +12,6 @@ export const getSnippet = async (ID: string) =>
 
 export const deleteSnippet = async (ID: string) =>
   (await axiosClient.delete(`/snippets/${ID}`)).data;
+
+export const updateSnippet = async (ID: string, data: CreateSnippetType) =>
+  (await axiosClient.put(`/snippets/${ID}`, data)).data;

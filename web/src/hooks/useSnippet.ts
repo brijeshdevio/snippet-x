@@ -7,6 +7,7 @@ import {
   deleteSnippet,
   getSnippet,
   getSnippets,
+  updateSnippet,
 } from "@/services/snippet.service";
 import type { CreateSnippetType } from "@/types/snippet";
 import { errorHandler } from "@/utils";
@@ -47,10 +48,23 @@ export function useSnippet() {
     onError: errorHandler,
   });
 
+  const updateSnippetMutation = useMutation({
+    mutationKey: ["update-snippet", SNIPPET_ID!],
+    mutationFn: async (data: CreateSnippetType) =>
+      await updateSnippet(SNIPPET_ID!, data),
+    onSuccess: (data: AxiosResponse["data"]) => {
+      const message = data.message;
+      toast.success(message);
+      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
+    },
+    onError: errorHandler,
+  });
+
   return {
     createSnippetMutation,
     snippetsQueryMutation,
     snippetQueryMutation,
     deleteSnippetMutation,
+    updateSnippetMutation,
   };
 }

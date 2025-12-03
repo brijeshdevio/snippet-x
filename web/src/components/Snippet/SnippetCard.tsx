@@ -20,9 +20,12 @@ export function SnippetCard({
             <span className="badge badge-outline">{language}</span>
           </div>
           <div className="invisible group-hover:visible flex items-center gap-2 sm:gap-3">
-            <button className="btn btn-sm btn-ghost btn-circle">
+            <Link
+              to={`/snippets/${_id}/edit`}
+              className="btn btn-sm btn-ghost btn-circle"
+            >
               <Edit size={17} />
-            </button>
+            </Link>
             <button className="btn btn-sm btn-ghost btn-circle">
               <Copy size={17} />
             </button>

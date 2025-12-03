@@ -1,5 +1,6 @@
 import { Copy, Edit, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { androidstudio as codeTheme } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -7,7 +8,6 @@ import { timeAgo } from "@/utils/timeAgo";
 import { useSnippet } from "@/hooks/useSnippet";
 import { Loader } from "@/components";
 import type { SnippetType } from "@/types/snippet";
-import { useNavigate } from "react-router-dom";
 
 export function SingleSnippet() {
   const { snippetQueryMutation, deleteSnippetMutation } = useSnippet();
@@ -70,9 +70,13 @@ export function SingleSnippet() {
             ))}
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="btn btn-sm btn-circle">
+            <Link
+              to={`/snippets/${snippet?._id}/edit`}
+              className="btn btn-sm btn-circle"
+            >
               <Edit size={17} />
-            </button>
+            </Link>
+
             <button className="btn btn-sm btn-circle" onClick={handleCopyCode}>
               <Copy size={17} />
             </button>

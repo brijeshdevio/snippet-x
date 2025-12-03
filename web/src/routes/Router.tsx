@@ -36,7 +36,10 @@ export function Router() {
             <Route path="/new" element={<NewSnippet />} />
             <Route path="/trash" element={<TrashSnippets />} />
             <Route path="/snippets/:SNIPPET_ID" element={<SingleSnippet />} />
-            <Route path="/:SNIPPET_ID" element={<EditSnippet />} />
+            <Route
+              path="/snippets/:SNIPPET_ID/edit"
+              element={<EditSnippet />}
+            />
           </Route>
         </Route>
       </Routes>
