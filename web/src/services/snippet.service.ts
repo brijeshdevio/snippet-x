@@ -7,3 +7,5 @@ export const createSnippet = async (data: CreateSnippetType) =>
 export const getSnippets = async () =>
   (await axiosClient.get("/snippets")).data;
 
+export const getSnippet = async (ID: string) =>
+  (await axiosClient.get(`/snippets/${ID}`)).data;

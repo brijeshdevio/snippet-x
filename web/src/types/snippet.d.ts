@@ -15,6 +15,16 @@ export interface SnippetCardType {
   tags: string[];
 }
 
+export interface SnippetType {
+  _id: string;
+  title: string;
+  language: string;
+  code: string;
+  description: string;
+  updatedAt: string;
+  tags: string[];
+}
+
 export interface SnippetQuery {
   search?: string;
   language?: string;

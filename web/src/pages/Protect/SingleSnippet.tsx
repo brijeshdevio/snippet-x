@@ -1,12 +1,15 @@
 import { Copy, Edit, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { androidstudio as codeTheme } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { timeAgo } from "@/utils/timeAgo";
-import { snippet } from "@/data";
-import { useState } from "react";
+import { useSnippet } from "@/hooks/useSnippet";
+import { Loader } from "@/components";
+import type { SnippetType } from "@/types/snippet";
 
 export function SingleSnippet() {
+  const { snippetQueryMutation } = useSnippet();
   const [isLineNumber, setIsLineNumber] = useState(false);
   const [isWrapCode, setIsWrapCode] = useState(false);
 
@@ -28,20 +31,31 @@ export function SingleSnippet() {
     setIsWrapCode(!isWrapCode);
   };
 
+  useEffect(() => {
+    snippetQueryMutation.mutate();
+  }, []);
+
+  if (snippetQueryMutation.isPending) {
+    return <Loader />;
+  }
+
+  const data = snippetQueryMutation.data as unknown as { snippet: SnippetType };
+  const { snippet } = data || {};
+
   return (
     <>
       <section className="w-full sm:w-[90%] flex flex-col gap-3 mx-auto px-3 py-5">
         <div className="flex flex-col gap-1">
           <h1 className="text-xl font-bold tracking-tight md:text-3xl">
-            {snippet.title}
+            {snippet?.title}
           </h1>
           <p className="font-normal opacity-70 text-sm">
-            Last Updated: {timeAgo(snippet.updated, "")}
+            Last Updated: {timeAgo(snippet?.updatedAt, "")}
           </p>
         </div>
         <div className="flex flex-wrap justify-between gap-3">
           <div className="flex flex-wrap gap-2">
-            {snippet.tags?.map((tag: string, index: number) => (
+            {snippet?.tags?.map((tag: string, index: number) => (
               <>
                 <span className="badge" key={index}>
                   {tag}
@@ -93,16 +107,16 @@ export function SingleSnippet() {
           <SyntaxHighlighter
             showLineNumbers={isLineNumber}
             wrapLongLines={isWrapCode}
-            language={snippet.language}
+            language={snippet?.language?.toLowerCase()}
             customStyle={{ borderRadius: 10 }}
             style={codeTheme}
           >
-            {snippet.code}
+            {snippet?.code}
           </SyntaxHighlighter>
         </div>
         <div>
           <h2 className="text-lg font-semibold">Note/Description</h2>
-          <p className="text-foreground/80">{snippet.description}</p>
+          <p className="text-foreground/80">{snippet?.description}</p>
         </div>
       </section>
     </>
