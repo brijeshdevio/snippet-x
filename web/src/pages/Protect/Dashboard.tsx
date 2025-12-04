@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Search } from "lucide-react";
-import { SnippetCard } from "@/components";
+import { NewSnippetCard, SnippetCard } from "@/components";
 // import { generateSnippets } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import { useAuth } from "@/auth";
@@ -13,6 +13,11 @@ export function Dashboard() {
   useEffect(() => {
     snippetsQueryMutation.mutate();
   }, []);
+
+  const data = snippetsQueryMutation.data as unknown as {
+    snippets: SnippetCardType[];
+  };
+  const snippets = data?.snippets || [];
 
   return (
     <>
@@ -38,12 +43,12 @@ export function Dashboard() {
         </div>
       </section>
 
+      {snippets?.length == 0 && <NewSnippetCard />}
+
       <section className="w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5">
-        {snippetsQueryMutation.data?.snippets?.map(
-          (snippet: SnippetCardType) => (
-            <SnippetCard key={snippet._id} {...snippet} />
-          )
-        )}
+        {snippets?.map((snippet: SnippetCardType) => (
+          <SnippetCard key={snippet._id} {...snippet} />
+        ))}
       </section>
     </>
   );
