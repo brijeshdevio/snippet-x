@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Search } from "lucide-react";
-import { NewSnippetCard, SnippetCard } from "@/components";
+import { NewSnippetCard, Pagination, SnippetCard } from "@/components";
 // import { generateSnippets } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import { useAuth } from "@/auth";
@@ -49,6 +49,7 @@ export function Dashboard() {
         {snippets?.map((snippet: SnippetCardType) => (
           <SnippetCard key={snippet._id} {...snippet} />
         ))}
+        <Pagination />
       </section>
     </>
   );

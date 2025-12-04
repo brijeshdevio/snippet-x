@@ -4,3 +4,4 @@ export * from "./Sidebar/Sidebar";
 export * from "./Snippet/SnippetCard";
 export * from "./Loader/Loader";
 export * from "./Snippet/NewSnippetCard";
+export * from "./Pagination/Pagination"
