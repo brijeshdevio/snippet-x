@@ -73,7 +73,7 @@ export function Sidebar() {
       }`}
     >
       <div
-        className={`fixed top-12 left-[-5px] w-fit h-fit mt-2 rounded md:hidden ${
+        className={`fixed top-16 left-[-5px] w-fit h-fit rounded md:hidden ${
           toggle.isSidebarOpen && "hidden"
         }`}
       >
@@ -85,7 +85,7 @@ export function Sidebar() {
         </button>
       </div>
       <div
-        className={`fixed top-14 left-[290px] sm:left-96 w-fit h-fit rounded md:hidden  ${
+        className={`fixed top-16 left-[290px] sm:left-96 w-fit h-fit rounded md:hidden  ${
           !toggle.isSidebarOpen && "hidden"
         }`}
       >
