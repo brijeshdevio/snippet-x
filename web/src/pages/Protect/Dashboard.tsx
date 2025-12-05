@@ -61,7 +61,11 @@ export function Dashboard() {
 
       {data?.snippets?.length == 0 && <NewSnippetCard />}
 
-      <section className="w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5">
+      <section
+        className={`w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5
+        ${data?.snippets?.length == 0 && "hidden"}
+        `}
+      >
         {data?.snippets?.map((snippet: SnippetCardType) => (
           <SnippetCard key={snippet._id} {...snippet} />
         ))}
