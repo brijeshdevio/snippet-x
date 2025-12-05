@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { NewSnippetCard, Pagination, SnippetCard } from "@/components";
 // import { generateSnippets } from "@/data";
@@ -9,6 +9,7 @@ import type { SnippetCardType, SnippetsType } from "@/types/snippet";
 export function Dashboard() {
   const { user } = useAuth();
   const { snippetsQueryMutation } = useSnippet();
+  const [value, setQuery] = useState("");
 
   const handleRefresh = (page: number) => {
     snippetsQueryMutation.mutate({ page: page });
@@ -17,6 +18,16 @@ export function Dashboard() {
   useEffect(() => {
     snippetsQueryMutation.mutate({ limit: 10 });
   }, []);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      snippetsQueryMutation.mutate({ search: value });
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, setQuery]);
 
   const data = snippetsQueryMutation.data as unknown as SnippetsType;
 
@@ -38,7 +49,11 @@ export function Dashboard() {
           <form>
             <label className="input w-full max-w-[500px]">
               <Search size={20} className="opacity-70" />
-              <input type="text" placeholder="Search public snippets..." />
+              <input
+                type="text"
+                placeholder="Search public snippets..."
+                onChange={(e) => setQuery(e.target.value)}
+              />
             </label>
           </form>
         </div>
