@@ -51,7 +51,7 @@ export function Dashboard() {
               <Search size={20} className="opacity-70" />
               <input
                 type="text"
-                placeholder="Search public snippets..."
+                placeholder="Search private snippets..."
                 onChange={(e) => setQuery(e.target.value)}
               />
             </label>
