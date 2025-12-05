@@ -7,12 +7,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 import { Snippet } from 'src/schema/snippet.schema';
 import { CreateSnippetDto, QueryDto, UpdateSnippetDto } from './dto';
+import { GetSnippetsType } from 'src/types';
 
 @Injectable()
 export class SnippetService {
   constructor(
     @InjectModel(Snippet.name) private readonly snippetModel: Model<Snippet>,
   ) {}
+
+  defaultQuery: QueryDto = {
+    search: '',
+    language: '',
+    tag: '',
+    page: '1',
+    limit: '10',
+  };
 
   private isValidId(_id: string) {
     if (isValidObjectId(_id)) {
@@ -32,9 +41,14 @@ export class SnippetService {
     return newSnippet;
   }
 
-  async getSnippets(createdBy: string, queries: QueryDto): Promise<Snippet[]> {
+  async getSnippets(
+    createdBy: string,
+    queries: QueryDto = this.defaultQuery,
+  ): Promise<GetSnippetsType> {
     const query: Record<string, any> = { createdBy };
     const queryList: Record<string, any>[] = [];
+    const page = parseInt(queries.page) || 1;
+    const limit = parseInt(queries.limit) || 10;
 
     if (queries?.search) {
       queryList.push({
@@ -56,10 +70,7 @@ export class SnippetService {
 
     if (queries?.tag) {
       queryList.push({
-        tags: {
-          $regex: queries.tag,
-          $options: 'i',
-        },
+        tags: queries.tag,
       });
     }
 
@@ -67,11 +78,28 @@ export class SnippetService {
       query.$and = queryList;
     }
 
+    const skip = (page - 1) * limit;
+
     const snippets = await this.snippetModel
       .find(query)
       .lean()
-      .select('-__v -createdBy -createdAt -code');
-    return snippets;
+      .select('-__v -createdBy -createdAt -code')
+      .skip(skip)
+      .limit(limit);
+    const total = await this.snippetModel.countDocuments(query);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      snippets,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
+      },
+    };
   }
 
   async getSnippetById(createdBy: string, snippetId: string): Promise<Snippet> {

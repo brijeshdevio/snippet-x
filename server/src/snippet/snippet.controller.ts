@@ -33,11 +33,8 @@ export class SnippetController {
     @Req() req: { user: { sub: string }; query: QueryDto },
   ) {
     const createdBy = req.user.sub;
-    const snippets = await this.snippetService.getSnippets(
-      createdBy,
-      req.query,
-    );
-    return { snippets };
+    const result = await this.snippetService.getSnippets(createdBy, req.query);
+    return result;
   }
 
   @Get('stats')
