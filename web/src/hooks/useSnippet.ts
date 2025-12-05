@@ -9,8 +9,16 @@ import {
   getSnippets,
   updateSnippet,
 } from "@/services/snippet.service";
-import type { CreateSnippetType } from "@/types/snippet";
+import type { CreateSnippetType, SnippetQuery } from "@/types/snippet";
 import { errorHandler } from "@/utils";
+
+const defaultQuery: SnippetQuery = {
+  search: "",
+  language: "",
+  tag: "",
+  page: 1,
+  limit: 10,
+};
 
 export function useSnippet() {
   const { SNIPPET_ID } = useParams();
@@ -29,7 +37,8 @@ export function useSnippet() {
 
   const snippetsQueryMutation = useMutation({
     mutationKey: ["get-snippets"],
-    mutationFn: async () => await getSnippets(),
+    mutationFn: async (query: SnippetQuery = defaultQuery) =>
+      await getSnippets(query),
   });
 
   const snippetQueryMutation = useMutation({

@@ -4,20 +4,21 @@ import { NewSnippetCard, Pagination, SnippetCard } from "@/components";
 // import { generateSnippets } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import { useAuth } from "@/auth";
-import type { SnippetCardType } from "@/types/snippet";
+import type { SnippetCardType, SnippetsType } from "@/types/snippet";
 
 export function Dashboard() {
   const { user } = useAuth();
   const { snippetsQueryMutation } = useSnippet();
 
+  const handleRefresh = (page: number) => {
+    snippetsQueryMutation.mutate({ page: page });
+  };
+
   useEffect(() => {
-    snippetsQueryMutation.mutate();
+    snippetsQueryMutation.mutate({ limit: 10 });
   }, []);
 
-  const data = snippetsQueryMutation.data as unknown as {
-    snippets: SnippetCardType[];
-  };
-  const snippets = data?.snippets || [];
+  const data = snippetsQueryMutation.data as unknown as SnippetsType;
 
   return (
     <>
@@ -43,13 +44,13 @@ export function Dashboard() {
         </div>
       </section>
 
-      {snippets?.length == 0 && <NewSnippetCard />}
+      {data?.snippets?.length == 0 && <NewSnippetCard />}
 
       <section className="w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5">
-        {snippets?.map((snippet: SnippetCardType) => (
+        {data?.snippets?.map((snippet: SnippetCardType) => (
           <SnippetCard key={snippet._id} {...snippet} />
         ))}
-        <Pagination />
+        <Pagination {...data?.meta} onClick={handleRefresh} />
       </section>
     </>
   );

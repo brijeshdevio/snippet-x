@@ -29,4 +29,18 @@ export interface SnippetQuery {
   search?: string;
   language?: string;
   tag?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface SnippetsType {
+  snippets: SnippetCardType[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 }

@@ -92,6 +92,14 @@ export const languages = [
   "Dart",
   "R",
   "MATLAB",
+  "HTML",
+  "CSS",
+  "SQL",
+  "JSON",
+  "XML",
+  "Golang",
+  "Rust",
+  "Bash"
 ];
 
 export const tags = [
