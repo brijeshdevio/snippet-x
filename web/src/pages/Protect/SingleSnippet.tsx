@@ -15,10 +15,11 @@ export function SingleSnippet() {
   const [isWrapCode, setIsWrapCode] = useState(false);
   const navigate = useNavigate();
 
-  const handleDelete = async () => {
-    await deleteSnippetMutation.mutateAsync().finally(() => {
-      navigate("/dashboard");
-    });
+  const handleDelete = (ID: string) => {
+    return async () =>
+      await deleteSnippetMutation.mutateAsync(ID).finally(() => {
+        navigate("/dashboard");
+      });
   };
 
   const handleCopyCode = () => {
@@ -82,7 +83,7 @@ export function SingleSnippet() {
             </button>
             <button
               className="btn btn-sm btn-circle text-error"
-              onClick={handleDelete}
+              onClick={handleDelete(snippet._id)}
               disabled={deleteSnippetMutation.isPending}
             >
               {deleteSnippetMutation.isPending ? (

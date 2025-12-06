@@ -1,3 +1,4 @@
+import { useSnippet } from "@/hooks/useSnippet";
 import type { SnippetCardType } from "@/types/snippet";
 import { timeAgo } from "@/utils";
 import { Braces, Copy, Edit, Trash } from "lucide-react";
@@ -11,6 +12,11 @@ export function SnippetCard({
   tags,
   updatedAt,
 }: SnippetCardType) {
+  const { deleteSnippetMutation } = useSnippet();
+  const handleDelete = async () => {
+    deleteSnippetMutation.mutateAsync(_id);
+  };
+
   return (
     <div className="group card bg-base-100">
       <div className="card-body">
@@ -29,8 +35,16 @@ export function SnippetCard({
             <button className="btn btn-sm btn-ghost btn-circle">
               <Copy size={17} />
             </button>
-            <button className="btn btn-sm btn-ghost btn-circle text-error">
-              <Trash size={17} />
+            <button
+              className="btn btn-sm btn-ghost btn-circle text-error"
+              onClick={handleDelete}
+              disabled={deleteSnippetMutation?.isPending}
+            >
+              {deleteSnippetMutation?.isPending ? (
+                <span className="loading loading-spinner text-error"></span>
+              ) : (
+                <Trash size={17} />
+              )}
             </button>
           </div>
         </div>

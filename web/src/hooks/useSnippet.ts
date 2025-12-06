@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,7 +22,6 @@ const defaultQuery: SnippetQuery = {
 
 export function useSnippet() {
   const { SNIPPET_ID } = useParams();
-  const queryClient = useQueryClient();
 
   const createSnippetMutation = useMutation({
     mutationKey: ["create-snippet"],
@@ -30,7 +29,7 @@ export function useSnippet() {
     onSuccess: (data: AxiosResponse["data"]) => {
       const message = data.message;
       toast.success(message);
-      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
+      snippetsQueryMutation.mutate({ limit: 10 });
     },
     onError: errorHandler,
   });
@@ -48,11 +47,11 @@ export function useSnippet() {
 
   const deleteSnippetMutation = useMutation({
     mutationKey: ["delete-snippet", SNIPPET_ID!],
-    mutationFn: async () => await deleteSnippet(SNIPPET_ID!),
+    mutationFn: async (ID: string = SNIPPET_ID!) => await deleteSnippet(ID),
     onSuccess: (data: AxiosResponse["data"]) => {
       const message = data.message;
       toast.success(message);
-      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
+      snippetsQueryMutation.mutate({ limit: 10 });
     },
     onError: errorHandler,
   });
@@ -64,7 +63,7 @@ export function useSnippet() {
     onSuccess: (data: AxiosResponse["data"]) => {
       const message = data.message;
       toast.success(message);
-      queryClient.invalidateQueries({ queryKey: ["get-snippets"] });
+      snippetsQueryMutation.mutate({ limit: 10 });
     },
     onError: errorHandler,
   });
