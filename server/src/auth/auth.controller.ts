@@ -23,4 +23,10 @@ export class AuthController {
     });
     res.json({ accessToken, message: 'Logged in successfully.' });
   }
+
+  @Post('logout')
+  handleLogout(@Res() res: Response) {
+    res.clearCookie('access_token');
+    res.json({ message: 'Logged out successfully.' });
+  }
 }
