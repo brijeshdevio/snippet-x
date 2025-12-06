@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import { toast } from "sonner";
-import { login, register } from "@/services/auth.service";
+import { login, logout, register } from "@/services/auth.service";
 import type { LoginType, RegisterType } from "@/types/auth";
 import { errorHandler } from "@/utils";
 
@@ -23,6 +23,19 @@ export function useLogin() {
     mutationFn: async (data: LoginType) => await login(data),
     onSuccess: (data: AxiosResponse["data"]) => {
       window.location.href = "/dashboard";
+      toast.success(data.message);
+    },
+    onError: errorHandler,
+  });
+  return mutation;
+}
+
+export function useLogout() {
+  const mutation = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: async () => await logout(),
+    onSuccess: (data: AxiosResponse["data"]) => {
+      window.location.href = "/";
       toast.success(data.message);
     },
     onError: errorHandler,

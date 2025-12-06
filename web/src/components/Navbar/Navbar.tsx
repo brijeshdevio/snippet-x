@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { Blocks, Menu, Search, X } from "lucide-react";
 import { useAuth } from "@/auth";
 import { useState } from "react";
+import { useLogout } from "@/hooks/useAuth";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mutate, isPending } = useLogout();
   const { isAuthenticated } = useAuth();
 
   const handleMenuToggle = () => {
@@ -52,9 +54,37 @@ export function Navbar() {
           >
             Home
           </Link>
-          <button className="btn btn-primary btn-sm  flex items-center justify-start">
-            Logout
-          </button>
+
+          {isAuthenticated ? (
+            <>
+              <button
+                className="btn btn-primary btn-sm  flex items-center justify-start"
+                disabled={isPending}
+                onClick={() => mutate()}
+              >
+                {isPending ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Logout"
+                )}
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/register"
+                className="btn btn-sm btn-primary w-full flex items-center justify-start"
+              >
+                Register
+              </Link>
+              <Link
+                to="/login"
+                className="btn btn-sm btn-ghost w-full flex items-center justify-start"
+              >
+                Log in
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -75,7 +105,17 @@ export function Navbar() {
           </form>
           {isAuthenticated ? (
             <>
-              <button className="btn btn-primary btn-sm">Logout</button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => mutate()}
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Logout"
+                )}
+              </button>
             </>
           ) : (
             <>

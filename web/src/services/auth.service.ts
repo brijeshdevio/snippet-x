@@ -6,3 +6,5 @@ export const register = async (data: RegisterType) =>
 
 export const login = async (data: LoginType) =>
   (await axiosClient.post("/auth/login", data)).data;
+
+export const logout = async () => (await axiosClient.post("/auth/logout")).data;
