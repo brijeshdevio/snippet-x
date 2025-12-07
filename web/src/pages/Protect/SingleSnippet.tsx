@@ -83,7 +83,7 @@ export function SingleSnippet() {
             </button>
             <button
               className="btn btn-sm btn-circle text-error"
-              onClick={handleDelete(snippet._id)}
+              onClick={handleDelete(snippet?._id)}
               disabled={deleteSnippetMutation.isPending}
             >
               {deleteSnippetMutation.isPending ? (
