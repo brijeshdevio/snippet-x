@@ -69,3 +69,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTFkZTFjZ
 
 ### GET - /api/snippets/stats
 GET http://localhost:3000/api/snippets/stats
+
+
+### POST - /api/folders
+POST http://localhost:3000/api/folders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTM2NjQwODUzMDY5NmYxNjEzZTNhMGMiLCJpYXQiOjE3NjUxNzIyNDYsImV4cCI6MTc2NTI1ODY0Nn0.GTNMJ1waRgesBC-zeyrXbLzwmegoPnkzmzJPwphgAYQ
+
+{
+  "name": "ReactJS"
+}
+
+
+### GET - /api/folders
+GET http://localhost:3000/api/folders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTM2NjQwODUzMDY5NmYxNjEzZTNhMGMiLCJpYXQiOjE3NjUxNzIyNDYsImV4cCI6MTc2NTI1ODY0Nn0.GTNMJ1waRgesBC-zeyrXbLzwmegoPnkzmzJPwphgAYQ
+
+
+### GET - /api/folders/:ID
+GET http://localhost:3000/api/folders/6936658e6c36c841d88592d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTM2NjQwODUzMDY5NmYxNjEzZTNhMGMiLCJpYXQiOjE3NjUxNzIyNDYsImV4cCI6MTc2NTI1ODY0Nn0.GTNMJ1waRgesBC-zeyrXbLzwmegoPnkzmzJPwphgAYQ
+
+
+### PUT - /api/folders/:ID
+PUT http://localhost:3000/api/folders/6936658e6c36c841d88592d6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTM2NjQwODUzMDY5NmYxNjEzZTNhMGMiLCJpYXQiOjE3NjUxNzIyNDYsImV4cCI6MTc2NTI1ODY0Nn0.GTNMJ1waRgesBC-zeyrXbLzwmegoPnkzmzJPwphgAYQ
+
+{
+  "description": "If you want, I can write a function to return a full folder tree (recursive) as well."
+}
+
+
+### DELETE - /api/folders/:ID
+DELETE http://localhost:3000/api/folders/6936658e6c36c841d88592d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTM2NjQwODUzMDY5NmYxNjEzZTNhMGMiLCJpYXQiOjE3NjUxNzIyNDYsImV4cCI6MTc2NTI1ODY0Nn0.GTNMJ1waRgesBC-zeyrXbLzwmegoPnkzmzJPwphgAYQ
