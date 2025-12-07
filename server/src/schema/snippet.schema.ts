@@ -22,6 +22,9 @@ export class Snippet {
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   createdBy: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Folder', required: true })
+  folder: Types.ObjectId;
 }
 
 export const SnippetSchema = SchemaFactory.createForClass(Snippet);

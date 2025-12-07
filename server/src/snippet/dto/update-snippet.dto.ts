@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsArray, IsMongoId } from 'class-validator';
 
 export class UpdateSnippetDto {
   @IsString({ message: 'Title must be a string' })
@@ -12,6 +12,10 @@ export class UpdateSnippetDto {
   @IsString({ message: 'Description must be a string' })
   @IsOptional()
   description?: string;
+
+  @IsMongoId({ message: 'Folder ID must be a valid MongoDB ID' })
+  @IsOptional()
+  folder?: string;
 
   @IsString({ message: 'Language must be a string' })
   @IsOptional()

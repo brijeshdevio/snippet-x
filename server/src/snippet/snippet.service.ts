@@ -16,6 +16,7 @@ export class SnippetService {
   ) {}
 
   defaultQuery: QueryDto = {
+    folder: '',
     search: '',
     language: '',
     tag: '',
@@ -34,6 +35,9 @@ export class SnippetService {
     createdBy: string,
     data: CreateSnippetDto,
   ): Promise<Snippet> {
+    if (data.folder) {
+      this.isValidId(data.folder);
+    }
     const newSnippet = await this.snippetModel.create({
       createdBy,
       ...data,
@@ -78,12 +82,18 @@ export class SnippetService {
       query.$and = queryList;
     }
 
+    if (queries?.folder) {
+      this.isValidId(queries.folder);
+      query.folder = queries.folder;
+    }
+
     const skip = (page - 1) * limit;
 
     const snippets = await this.snippetModel
       .find(query)
       .lean()
       .select('-__v -createdBy -createdAt -code')
+      .populate('folder', 'name')
       .skip(skip)
       .limit(limit);
     const total = await this.snippetModel.countDocuments(query);
@@ -122,6 +132,10 @@ export class SnippetService {
     data: UpdateSnippetDto,
   ): Promise<Snippet> {
     this.isValidId(snippetId);
+
+    if (data.folder) {
+      this.isValidId(data.folder);
+    }
 
     const updatedSnippet = await this.snippetModel
       .findOneAndUpdate(
