@@ -5,15 +5,22 @@ import { NewSnippetCard, Pagination, SnippetCard } from "@/components";
 import { useSnippet } from "@/hooks/useSnippet";
 import { useAuth } from "@/auth";
 import type { SnippetCardType, SnippetsType } from "@/types/snippet";
+import { useSearchParams } from "react-router-dom";
 
 export function Dashboard() {
   const { user } = useAuth();
+  const [query] = useSearchParams();
   const { snippetsQueryMutation } = useSnippet();
   const [value, setQuery] = useState("");
 
   const handleRefresh = (page: number) => {
     snippetsQueryMutation.mutate({ page: page });
   };
+
+  useEffect(() => {
+    const folder = query.get("folder");
+    if (folder) snippetsQueryMutation.mutate({ folder: folder });
+  }, [query]);
 
   useEffect(() => {
     snippetsQueryMutation.mutate({ limit: 10 });

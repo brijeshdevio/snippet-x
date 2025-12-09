@@ -26,6 +26,7 @@ export interface SnippetType {
 }
 
 export interface SnippetQuery {
+  folder?: string;
   search?: string;
   language?: string;
   tag?: string;

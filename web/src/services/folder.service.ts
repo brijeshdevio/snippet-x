@@ -1,0 +1,7 @@
+import type { CreateFolderType } from "@/types/folder";
+import { axiosClient } from "./axiosClient";
+
+export const createFolder = async (data: CreateFolderType) =>
+  (await axiosClient.post("/folders", data)).data;
+
+export const getFolders = async () => (await axiosClient.get("/folders")).data;

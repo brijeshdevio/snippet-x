@@ -1,30 +1,42 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ChevronDown, ChevronRight, ChevronUp, Plus, X } from "lucide-react";
-import { languages, snippetFolders } from "@/data";
-import { useState } from "react";
+import { languages } from "@/data";
+import { useEffect, useState } from "react";
+import { useFolder } from "@/hooks/useFolder";
 
 interface FolderItemProps {
   name: string;
+  _id: string;
 }
 
 interface LanguageItemProps {
   name: string;
 }
 
-function FolderItem({ name }: FolderItemProps) {
+function FolderItem({ name, _id }: FolderItemProps) {
+  const [query, setQuery] = useSearchParams();
+
+  const handleClick = () => {
+    const folder = new URLSearchParams(query);
+    if (folder) {
+      setQuery({ folder: _id });
+    } else {
+      setQuery({});
+    }
+  };
+
   return (
-    <li key={name}>
-      <Link
-        to="/"
-        className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-base-200 hover:drop-shadow"
-      >
-        <div className="w-8 h-8 flex items-center justify-center text-xs bg-base-200 border border-white/5 rounded-xl">
-          <span>{name[0]}</span>
-        </div>
-        <div className="text-sm">
-          <p>{name}</p>
-        </div>
-      </Link>
+    <li
+      key={name}
+      onClick={handleClick}
+      className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-base-200 hover:drop-shadow"
+    >
+      <div className="w-8 h-8 flex items-center justify-center text-xs bg-base-200 border border-white/5 rounded-xl">
+        <span>{name[0]}</span>
+      </div>
+      <div className="text-sm">
+        <p>{name}</p>
+      </div>
     </li>
   );
 }
@@ -53,6 +65,7 @@ export function Sidebar() {
     isLanguageOpen: true,
     isSidebarOpen: false,
   });
+  const { refetch, data } = useFolder().getFoldersQuery;
 
   const handleFolderToggle = () => {
     setToggle((pre) => ({ ...pre, isFolderOpen: !toggle.isFolderOpen }));
@@ -65,6 +78,10 @@ export function Sidebar() {
   const handleSidebarToggle = () => {
     setToggle((pre) => ({ ...pre, isSidebarOpen: !toggle.isSidebarOpen }));
   };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div
@@ -125,8 +142,8 @@ export function Sidebar() {
 
           {toggle.isFolderOpen && (
             <ul className="max-h-[calc(100vh-160px*2.5)] overflow-y-scroll">
-              {snippetFolders?.map((f) => (
-                <FolderItem key={f} name={f} />
+              {data?.folders?.map((f: FolderItemProps) => (
+                <FolderItem key={f._id} {...f} />
               ))}
             </ul>
           )}
