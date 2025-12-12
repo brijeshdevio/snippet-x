@@ -10,6 +10,12 @@ Built for speed, simplicity, and productivity — perfect for developers who wan
 **Home/Landing Page**
 ![Home/Landing Page](image-2.png)
 
+**Login Page**
+![Login Page](image.png)
+
+**Register Page**
+![Register Page](image-6.png)
+
 **Dashboard Page**
 ![Dashboard Page](image-1.png)
 
