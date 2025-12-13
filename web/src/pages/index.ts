@@ -1,6 +1,7 @@
 // Public pages
 export * from "./Public/Home";
 export * from "./Public/PublicSnippets";
+export * from "./Public/NotFound";
 
 // Authentication pages
 export * from "./Auth/Login";

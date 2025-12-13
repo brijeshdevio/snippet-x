@@ -8,6 +8,7 @@ import {
   Home,
   Login,
   NewSnippet,
+  NotFound,
   PublicSnippets,
   Register,
   SingleSnippet,
@@ -42,6 +43,7 @@ export function Router() {
             />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
