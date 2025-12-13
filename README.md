@@ -28,6 +28,9 @@ Built for speed, simplicity, and productivity — perfect for developers who wan
 **Edit Snippet Page**
 ![Edit Snippet Page](image-4.png)
 
+**Not Found Page**
+![Not Found Page](image-7.png)
+
 ---
 
 ## **Features**
