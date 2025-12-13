@@ -11,6 +11,7 @@ export function useFolder() {
     onSuccess: (data: AxiosResponse["data"]) => {
       const message = data.message;
       toast.success(message);
+      getFoldersQuery.refetch();
     },
   });
 
