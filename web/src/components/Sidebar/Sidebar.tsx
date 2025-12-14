@@ -44,10 +44,21 @@ function FolderItem({ name, _id }: FolderItemProps) {
 }
 
 function LanguageItem({ name }: LanguageItemProps) {
+  const [query, setQuery] = useSearchParams();
+
+  const handleClick = () => {
+    const language = new URLSearchParams(query);
+    if (language) {
+      setQuery({ language: name });
+    } else {
+      setQuery({});
+    }
+  };
+
   return (
     <li key={name}>
-      <Link
-        to="/"
+      <div
+        onClick={handleClick}
         className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-base-200 hover:drop-shadow"
       >
         <div className="w-8 h-8 flex items-center justify-center text-xs bg-base-200 border border-white/5 rounded-xl">
@@ -56,7 +67,7 @@ function LanguageItem({ name }: LanguageItemProps) {
         <div className="text-sm">
           <p>{name}</p>
         </div>
-      </Link>
+      </div>
     </li>
   );
 }

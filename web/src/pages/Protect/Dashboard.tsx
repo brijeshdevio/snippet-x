@@ -19,7 +19,9 @@ export function Dashboard() {
 
   useEffect(() => {
     const folder = query.get("folder");
+    const language = query.get("language");
     if (folder) snippetsQueryMutation.mutate({ folder: folder });
+    if (language) snippetsQueryMutation.mutate({ language: language });
   }, [query]);
 
   useEffect(() => {
