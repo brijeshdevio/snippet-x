@@ -66,7 +66,7 @@ export function Dashboard() {
             <label className="input w-full max-w-[500px]">
               <Search size={20} className="opacity-70" />
               <input
-                type="text"
+                type="search"
                 placeholder="Search private snippets..."
                 onChange={(e) => setQuery(e.target.value)}
               />
