@@ -56,7 +56,7 @@ export function NewSnippet() {
               name="language"
             >
               {languages.map((lang) => (
-                <option key={lang} value={lang}>
+                <option key={`new_lang_${lang}`} value={lang}>
                   {lang}
                 </option>
               ))}

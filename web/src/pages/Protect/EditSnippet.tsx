@@ -72,7 +72,7 @@ export function EditSnippet() {
               defaultValue={snippet?.language}
             >
               {languages.map((lang) => (
-                <option key={lang} value={lang}>
+                <option key={`edit_lang_${lang}`} value={lang}>
                   {lang}
                 </option>
               ))}

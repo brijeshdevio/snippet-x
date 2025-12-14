@@ -79,7 +79,6 @@ export const languages = [
   "C++",
   "C#",
   "Go",
-  "Rust",
   "Ruby",
   "PHP",
   "TypeScript",

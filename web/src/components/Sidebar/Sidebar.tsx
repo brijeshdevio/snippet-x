@@ -252,7 +252,7 @@ export function Sidebar() {
             {toggle.isLanguageOpen && (
               <ul className="max-h-[calc(100vh-160px*3)] overflow-y-scroll">
                 {languages?.map((f) => (
-                  <LanguageItem key={f} name={f} />
+                  <LanguageItem key={`sidebar_lang_${f}`} name={f} />
                 ))}
               </ul>
             )}
