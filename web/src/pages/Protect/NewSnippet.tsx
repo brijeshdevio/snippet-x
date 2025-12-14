@@ -2,9 +2,11 @@ import type { FormEvent } from "react";
 import { languages } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
 import type { CreateSnippetType } from "@/types/snippet";
+import { useFolder } from "@/hooks/useFolder";
 
 export function NewSnippet() {
   const { createSnippetMutation } = useSnippet();
+  const { getFoldersQuery } = useFolder();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,6 +60,24 @@ export function NewSnippet() {
                   {lang}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="folder" className="text-sm opacity-90">
+              Folder
+            </label>
+            <select
+              className="select select-bordered"
+              id="folder"
+              name="folder"
+            >
+              {getFoldersQuery?.data?.folders.map(
+                (f: { name: string; _id: string }) => (
+                  <option key={f._id} value={f._id}>
+                    {f.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
         </div>
