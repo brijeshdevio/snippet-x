@@ -9,12 +9,19 @@ import { useSearchParams } from "react-router-dom";
 
 export function Dashboard() {
   const { user } = useAuth();
-  const [query] = useSearchParams();
+  const [query, setSearchQuery] = useSearchParams();
   const { snippetsQueryMutation } = useSnippet();
   const [value, setQuery] = useState("");
 
   const handleRefresh = (page: number) => {
     snippetsQueryMutation.mutate({ page: page });
+  };
+
+  const handleClear = () => {
+    if (query.size > 0) {
+      setSearchQuery({});
+      snippetsQueryMutation.mutate({});
+    }
   };
 
   useEffect(() => {
@@ -54,8 +61,8 @@ export function Dashboard() {
       </section>
 
       <section className="py-3 bg-base-100 border-t border-b border-white/5">
-        <div className="w-full sm:w-[90%] mx-auto px-3 ">
-          <form>
+        <div className="w-full sm:w-[90%] flex items-center justify-between gap-2  mx-auto px-3 ">
+          <form className="w-full">
             <label className="input w-full max-w-[500px]">
               <Search size={20} className="opacity-70" />
               <input
@@ -65,6 +72,9 @@ export function Dashboard() {
               />
             </label>
           </form>
+          <button className="btn btn-ghost btn-sm" onClick={handleClear}>
+            Clear
+          </button>
         </div>
       </section>
 
