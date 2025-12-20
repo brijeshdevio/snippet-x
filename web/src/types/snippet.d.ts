@@ -45,3 +45,14 @@ export interface SnippetsType {
     hasPrev: boolean;
   };
 }
+
+export interface GenerateSnippet {
+  prompt: string;
+  language: string;
+}
+
+export interface ContentType {
+  language?: string;
+  snippet?: string;
+  title?: string;
+}

@@ -1,10 +1,17 @@
-import type { FormEvent } from "react";
+import { Sparkles } from "lucide-react";
+import { useState, type FormEvent } from "react";
 import { languages } from "@/data";
 import { useSnippet } from "@/hooks/useSnippet";
-import type { CreateSnippetType } from "@/types/snippet";
+import type { ContentType, CreateSnippetType } from "@/types/snippet";
 import { useFolder } from "@/hooks/useFolder";
+import { GenerateSnippet } from "@/components";
+import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 
 export function NewSnippet() {
+  const [isActive, setIsActive] = useState(false);
+  const [content, setContent] = useState<ContentType | null>();
+  const navigate = useNavigate();
   const { createSnippetMutation } = useSnippet();
   const { getFoldersQuery } = useFolder();
 
@@ -17,113 +24,152 @@ export function NewSnippet() {
     if (typeof data.tags == "string") {
       data.tags = data?.tags?.split(",");
     }
-    await createSnippetMutation
-      .mutateAsync(data as unknown as CreateSnippetType)
-      .finally(() => e.currentTarget.reset());
+    await createSnippetMutation.mutateAsync(
+      data as unknown as CreateSnippetType
+    );
+  };
+
+  const handleOnContent = (content: ContentType) => {
+    setContent(content);
   };
 
   return (
-    <section className="w-full sm:w-[90%] flex flex-col gap-5 mx-auto px-3 py-5">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl">Create New Snippet</h2>
-        <p className="text-sm opacity-90">
-          This information will be displayed publicly so be careful what you
-          share. Ensure you are not sharing sensitve information or private
-          information.
-        </p>
-      </div>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <>
+      {isActive &&
+        createPortal(
+          <GenerateSnippet
+            onClose={() => setIsActive(false)}
+            onContent={handleOnContent}
+          />,
+          document.body
+        )}
+      <section className="w-full sm:w-[90%] flex flex-col gap-5 mx-auto px-3 py-5">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-2xl">Create New Snippet</h2>
+          <p className="text-sm opacity-90">
+            This information will be displayed publicly so be careful what you
+            share. Ensure you are not sharing sensitve information or private
+            information.
+          </p>
+        </div>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="title" className="text-sm opacity-90">
+                Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                defaultValue={content?.title}
+                placeholder="e.g., JavaScript Hello World"
+                className="input input-bordered w-full"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="language" className="text-sm opacity-90">
+                Language
+              </label>
+              <select
+                className="select select-bordered"
+                id="language"
+                name="language"
+                defaultValue={content?.language}
+              >
+                {languages.map((lang) => (
+                  <option key={`new_lang_${lang}`} value={lang}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="folder" className="text-sm opacity-90">
+                Folder
+              </label>
+              <select
+                className="select select-bordered"
+                id="folder"
+                name="folder"
+              >
+                {getFoldersQuery?.data?.folders.map(
+                  (f: { name: string; _id: string }) => (
+                    <option key={f._id} value={f._id}>
+                      {f.name}
+                    </option>
+                  )
+                )}
+              </select>
+            </div>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="btn btn-primary w-full btn-sm sm:btn-md"
+              onClick={() => setIsActive(true)}
+            >
+              <Sparkles />
+              <span>Generate Snippet</span>
+            </button>
+          </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="title" className="text-sm opacity-90">
-              Title
+            <label htmlFor="code" className="text-sm opacity-90">
+              Code
             </label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="e.g., JavaScript Hello World"
-              className="input input-bordered w-full"
+            <textarea
+              name="code"
+              id="code"
+              className="textarea w-full h-60 resize-none"
+              placeholder="console.log('Hello World!'');"
+              defaultValue={content?.snippet}
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="language" className="text-sm opacity-90">
-              Language
+            <label htmlFor="description" className="text-sm opacity-90">
+              Note/Description
             </label>
-            <select
-              className="select select-bordered"
-              id="language"
-              name="language"
-            >
-              {languages.map((lang) => (
-                <option key={`new_lang_${lang}`} value={lang}>
-                  {lang}
-                </option>
-              ))}
-            </select>
+            <textarea
+              name="description"
+              id="description"
+              className="textarea h-20 resize-none w-full"
+              placeholder=""
+            />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="folder" className="text-sm opacity-90">
-              Folder
+            <label htmlFor="tags" className="text-sm opacity-90">
+              Tags
             </label>
-            <select
-              className="select select-bordered"
-              id="folder"
-              name="folder"
-            >
-              {getFoldersQuery?.data?.folders.map(
-                (f: { name: string; _id: string }) => (
-                  <option key={f._id} value={f._id}>
-                    {f.name}
-                  </option>
-                )
-              )}
-            </select>
+            <input
+              type="text"
+              name="tags"
+              id="tags"
+              className="input input-bordered w-full min-w-32"
+              placeholder="e.g. React, JS, Vue"
+            />
           </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="code" className="text-sm opacity-90">
-            Code
-          </label>
-          <textarea
-            name="code"
-            id="code"
-            className="textarea w-full h-60 resize-none"
-            placeholder="console.log('Hello World!'');"
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="description" className="text-sm opacity-90">
-            Note/Description
-          </label>
-          <textarea
-            name="description"
-            id="description"
-            className="textarea h-20 resize-none w-full"
-            placeholder=""
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="tags" className="text-sm opacity-90">
-            Tags
-          </label>
-          <input
-            type="text"
-            name="tags"
-            id="tags"
-            className="input input-bordered w-full min-w-32"
-            placeholder="e.g. React, JS, Vue"
-          />
-        </div>
-        <div className="flex items-center justify-end gap-5">
-          <button className="btn btn-error btn-sm sm:btn-md" type="button">
-            Cancel
-          </button>
-          <button className="btn btn-primary btn-sm sm:btn-md" type="submit">
-            Save
-          </button>
-        </div>
-      </form>
-    </section>
+          <div className="flex items-center justify-end gap-5">
+            <button
+              className="btn btn-error btn-sm sm:btn-md"
+              type="button"
+              onClick={() => navigate("/dashboard")}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary btn-sm sm:btn-md"
+              type="submit"
+              disabled={createSnippetMutation.isPending}
+            >
+              {createSnippetMutation.isPending ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Create Snippet"
+              )}
+            </button>
+          </div>
+        </form>
+      </section>
+    </>
   );
 }

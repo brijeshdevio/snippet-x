@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { SnippetModule } from './snippet/snippet.module';
 import { FolderModule } from './folder/folder.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { FolderModule } from './folder/folder.module';
     UserModule,
     SnippetModule,
     FolderModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

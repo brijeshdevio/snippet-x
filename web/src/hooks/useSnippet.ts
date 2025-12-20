@@ -5,11 +5,16 @@ import { toast } from "sonner";
 import {
   createSnippet,
   deleteSnippet,
+  generateSnippet,
   getSnippet,
   getSnippets,
   updateSnippet,
 } from "@/services/snippet.service";
-import type { CreateSnippetType, SnippetQuery } from "@/types/snippet";
+import type {
+  CreateSnippetType,
+  GenerateSnippet,
+  SnippetQuery,
+} from "@/types/snippet";
 import { errorHandler } from "@/utils";
 
 const defaultQuery: SnippetQuery = {
@@ -68,11 +73,22 @@ export function useSnippet() {
     onError: errorHandler,
   });
 
+  const generateSnippetMutation = useMutation({
+    mutationKey: ["generate-snippet"],
+    mutationFn: async (data: GenerateSnippet) => await generateSnippet(data),
+    onSuccess: (data: AxiosResponse["data"]) => {
+      const message = data.message;
+      toast.success(message);
+    },
+    onError: errorHandler,
+  });
+
   return {
     createSnippetMutation,
     snippetsQueryMutation,
     snippetQueryMutation,
     deleteSnippetMutation,
     updateSnippetMutation,
+    generateSnippetMutation,
   };
 }

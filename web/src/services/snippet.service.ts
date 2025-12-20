@@ -1,5 +1,9 @@
 import { axiosClient } from "./axiosClient";
-import type { CreateSnippetType, SnippetQuery } from "@/types/snippet";
+import type {
+  CreateSnippetType,
+  GenerateSnippet,
+  SnippetQuery,
+} from "@/types/snippet";
 
 export const createSnippet = async (data: CreateSnippetType) =>
   (await axiosClient.post("/snippets", data)).data;
@@ -19,3 +23,6 @@ export const deleteSnippet = async (ID: string) =>
 
 export const updateSnippet = async (ID: string, data: CreateSnippetType) =>
   (await axiosClient.put(`/snippets/${ID}`, data)).data;
+
+export const generateSnippet = async (data: GenerateSnippet) =>
+  (await axiosClient.post(`/ai/generate`, data)).data;
