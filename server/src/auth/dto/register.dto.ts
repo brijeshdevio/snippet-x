@@ -14,7 +14,13 @@ export class RegisterDto {
   email: string;
 
   @IsStrongPassword(
-    {},
+    {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    },
     {
       message:
         'Password must be strong (min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 symbol)',

@@ -14,7 +14,7 @@ export class AuthController {
   }
 
   @Post('login')
-  async handleLogin(@Body() body: LoginDto, @Res() res: Response) {
+  async handleLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response) {
     const { accessToken } = await this.authService.login(body);
     res.cookie('access_token', accessToken, {
       httpOnly: true,
@@ -25,7 +25,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  handleLogout(@Res() res: Response) {
+  handleLogout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
     res.json({ message: 'Logged out successfully.' });
   }

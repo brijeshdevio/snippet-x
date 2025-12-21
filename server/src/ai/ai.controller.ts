@@ -11,7 +11,7 @@ export class AiController {
   @Post('generate')
   async handleGenerateSnippet(
     @Body() content: { language: string; prompt: string },
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
   ): Promise<Response> {
     const response = await this.aiService.generateSnippet(content);
     return res.json(response);
