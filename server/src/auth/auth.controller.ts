@@ -1,7 +1,21 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto';
-import type { Response } from 'express';
+
+type CookieOption ={
+  httpOnly: boolean,
+  secure: boolean,
+  sameSite: 'lax' | 'none' | 'strict'
+}
+
+type CustomResponse= {
+  cookie:(
+    name:string,
+    value:string,
+    options:CookieOption
+    ) => void,
+   clearCookie:(name:string) => void
+}
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +28,7 @@ export class AuthController {
   }
 
   @Post('login')
-  async handleLogin(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response) {
+  async handleLogin(@Body() body: LoginDto, @Res() res: CustomResponse) {
     const { accessToken } = await this.authService.login(body);
     res.cookie('access_token', accessToken, {
       httpOnly: true,
@@ -25,7 +39,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  handleLogout(@Res({ passthrough: true }) res: Response) {
+  handleLogout(@Res({ passthrough: true }) res: CustomResponse) {
     res.clearCookie('access_token');
     return { message: 'Logged out successfully.' }
   }
