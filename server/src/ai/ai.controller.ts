@@ -12,8 +12,7 @@ export class AiController {
   async handleGenerateSnippet(
     @Body() content: { language: string; prompt: string },
     @Res({ passthrough: true }) res: Response,
-  ): Promise<Response> {
-    const response = await this.aiService.generateSnippet(content);
-    return res.json(response);
+  ) {
+   return await this.aiService.generateSnippet(content);
   }
 }

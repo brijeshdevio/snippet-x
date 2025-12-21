@@ -21,12 +21,12 @@ export class AuthController {
       secure: true,
       sameSite: 'none',
     });
-    res.json({ accessToken, message: 'Logged in successfully.' });
+    return { accessToken, message: 'Logged in successfully.' }
   }
 
   @Post('logout')
   handleLogout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
-    res.json({ message: 'Logged out successfully.' });
+    return { message: 'Logged out successfully.' }
   }
 }
