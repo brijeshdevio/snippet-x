@@ -25,6 +25,9 @@ Built for speed, simplicity, and productivity — perfect for developers who wan
 **New Snippet Page**
 ![New Snippet Page](image-5.png)
 
+**Generate Snippet using AI**
+![alt text](image-8.png)
+
 **Edit Snippet Page**
 ![Edit Snippet Page](image-4.png)
 
