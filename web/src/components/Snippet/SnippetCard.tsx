@@ -52,11 +52,14 @@ export function SnippetCard({
         <h3 className="line-clamp-2 font-semibold text-lg">{title}</h3>
         <p className="text-foreground/80 line-clamp-2">{description}</p>
         <div className="flex flex-wrap gap-2">
-          {tags?.map((tag, index: number) => (
-            <span key={index} className="badge">
-              {tag}
-            </span>
-          ))}
+          {tags?.map(
+            (tag, index: number) =>
+              tag && (
+                <span key={index} className="badge">
+                  {tag}
+                </span>
+              )
+          )}
         </div>
         <div className="flex items-center justify-between">
           <p className="opacity-70 text-sm">{timeAgo(updatedAt)}</p>

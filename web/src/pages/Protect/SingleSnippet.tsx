@@ -62,13 +62,14 @@ export function SingleSnippet() {
         </div>
         <div className="flex flex-wrap justify-between gap-3">
           <div className="flex flex-wrap gap-2">
-            {snippet?.tags?.map((tag: string, index: number) => (
-              <>
-                <span className="badge" key={index}>
-                  {tag}
-                </span>
-              </>
-            ))}
+            {snippet?.tags?.map(
+              (tag: string, index: number) =>
+                tag && (
+                  <span key={index} className="badge">
+                    {tag}
+                  </span>
+                )
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             <Link

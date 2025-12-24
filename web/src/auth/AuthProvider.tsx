@@ -1,6 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { getProfile } from "@/services/user.service";
+import { isAxiosError } from "axios";
+import { toast } from "sonner";
+import { globalError } from "@/utils";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState(null);
@@ -16,9 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setIsAuthenticated(true);
         }
       } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
+        globalError(error);
       } finally {
         setLoading(false);
       }
