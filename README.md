@@ -8,31 +8,31 @@ Built for speed, simplicity, and productivity — perfect for developers who wan
 ## **Page Screenshots**
 
 **Home/Landing Page**
-![Home/Landing Page](image-2.png)
+![Home/Landing Page](./screenshots/home.png)
 
 **Login Page**
-![Login Page](image.png)
+![Login Page](./screenshots/login.png)
 
 **Register Page**
-![Register Page](image-6.png)
+![Register Page](./screenshots/register.png)
 
 **Dashboard Page**
-![Dashboard Page](image-1.png)
+![Dashboard Page](./screenshots/dashboard.png)
 
 **Single Snippet Page**
-![Single Snippet Page](image-3.png)
+![Single Snippet Page](./screenshots/snippet.png)
 
 **New Snippet Page**
-![New Snippet Page](image-5.png)
+![New Snippet Page](./screenshots/new-snippet.png)
 
 **Generate Snippet using AI**
-![alt text](image-8.png)
+![Generate Snippet using AI](./screenshots/generate-snippet.png)
 
 **Edit Snippet Page**
-![Edit Snippet Page](image-4.png)
+![Edit Snippet Page](./screenshots/edit-snippet.png)
 
 **Not Found Page**
-![Not Found Page](image-7.png)
+![Not Found Page](./screenshots/not-found.png)
 
 ---
 
