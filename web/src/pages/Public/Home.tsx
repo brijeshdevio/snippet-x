@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 import { features, steps } from "@/data";
 
 export function Home() {
   return (
     <>
       {/* Header Section */}
-      <header className="w-full min-h-[400px] h-[70vh] flex items-center justify-center">
+      <motion.header
+        initial={{ scale: 0 }}
+        animate={{
+          scale: 1,
+          transition: { duration: 1 },
+        }}
+        className="w-full min-h-[400px] h-[70vh] flex items-center justify-center"
+      >
         <div className="flex flex-col gap-5 text-center">
           <h1 className="text-4xl font-semibold">
             Save, Organize & Access <br /> Your Code Snippets <br />
@@ -25,7 +33,7 @@ export function Home() {
             </Link>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Why SnippetX Section */}
       <section className="w-full py-20">
@@ -37,7 +45,14 @@ export function Home() {
         </div>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
           {features?.map((feature, index: number) => (
-            <div key={index} className="card bg-base-100">
+            <motion.div
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 1 },
+              }}
+              key={index}
+              className="card bg-base-100 border border-white/5 hover:shadow-xl"
+            >
               <div className="card-body">
                 <div className="bg-base-300 w-fit h-fit p-2 rounded-full ">
                   <feature.Icon size={25} className="text-primary" />
@@ -45,7 +60,7 @@ export function Home() {
                 <h2 className="text-xl font-semibold">{feature.title}</h2>
                 <p className="text-foreground/80">{feature.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -63,9 +78,15 @@ export function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
           {steps?.map((step, index: number) => (
             <div key={index} className="flex flex-col gap-1 text-center">
-              <div className="flex items-center justify-center bg-base-100 p-5 rounded-full w-8 h-8 mx-auto mb-2">
+              <motion.div
+                animate={{
+                  scale: 1.2,
+                  transition: { duration: 2 },
+                }}
+                className="flex items-center justify-center bg-base-100 p-5 rounded-full w-8 h-8 mx-auto mb-2 border border-white/5"
+              >
                 <span className="text-xl text-primary">{step.step}</span>
-              </div>
+              </motion.div>
               <h3 className="text-xl font-semibold">{step.title}</h3>
               <p className="text-foreground/80">{step.description}</p>
             </div>
@@ -74,7 +95,14 @@ export function Home() {
       </section>
 
       {/* Get Started Section  */}
-      <section className="w-full py-20 bg-base-100 rounded-2xl">
+      <motion.section
+        initial={{ scale: 0 }}
+        animate={{
+          scale: 1,
+          transition: { duration: 1 },
+        }}
+        className="w-full py-20 bg-base-100 rounded-2xl"
+      >
         <div className="text-center px-4">
           <h2 className="text-2xl font-semibold">
             Ready to Boost your Productivity
@@ -89,7 +117,7 @@ export function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }
