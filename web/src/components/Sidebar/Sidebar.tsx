@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ChevronDown, ChevronRight, ChevronUp, Plus, X } from "lucide-react";
 import { languages } from "@/data";
 import { useEffect, useState, type FormEvent } from "react";
+import { motion } from "motion/react";
 import { useFolder } from "@/hooks/useFolder";
 import type { CreateFolderType } from "@/types/folder";
 
@@ -83,7 +84,14 @@ function NewFolderModal({ onClick = () => {} }: { onClick: () => void }) {
   };
 
   return (
-    <main className="fixed top-0 left-0 z-[999] w-full h-screen min-h-[400px] flex items-center justify-center p-3 bg-base-300/80">
+    <motion.main
+      initial={{ scale: 0 }}
+      animate={{
+        scale: 1,
+        transition: { duration: 0.5 },
+      }}
+      className="fixed top-0 left-0 z-[999] w-full h-screen min-h-[400px] flex items-center justify-center p-3 bg-base-300/80"
+    >
       <div className="card bg-base-100 shadow-xl w-[340px] sm:w-[360px] border border-white/10">
         <div className="card-body">
           <h2 className="card-title">Create New Folder</h2>
@@ -135,7 +143,7 @@ function NewFolderModal({ onClick = () => {} }: { onClick: () => void }) {
           </form>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }
 
@@ -175,7 +183,12 @@ export function Sidebar() {
           <NewFolderModal onClick={handleToggleModal} />,
           document.body
         )}
-      <div
+      <motion.div
+        initial={{ scale: 0.8 }}
+        animate={{
+          scale: 1,
+          transition: { duration: 0.3 },
+        }}
         className={`fixed md:sticky left-0 h-[calc(100vh-57px)] w-full z-50 bg-base-300/70 md:w-fit ${
           !toggle.isSidebarOpen && "!w-fit"
         }`}
@@ -269,7 +282,7 @@ export function Sidebar() {
             )}
           </div>
         </aside>
-      </div>
+      </motion.div>
     </>
   );
 }

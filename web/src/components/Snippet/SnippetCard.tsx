@@ -3,6 +3,7 @@ import type { SnippetCardType } from "@/types/snippet";
 import { timeAgo } from "@/utils";
 import { Braces, Copy, Edit, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 export function SnippetCard({
   _id,
@@ -18,7 +19,13 @@ export function SnippetCard({
   };
 
   return (
-    <div className="group card bg-base-100">
+    <motion.div
+      whileHover={{
+        scale: 0.9,
+        transition: { duration: 1 },
+      }}
+      className="group card bg-base-100"
+    >
       <div className="card-body">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -68,6 +75,6 @@ export function SnippetCard({
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
