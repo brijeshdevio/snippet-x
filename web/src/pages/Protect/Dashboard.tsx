@@ -1,51 +1,56 @@
-import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { NewSnippetCard, Pagination, SnippetCard } from "@/components";
-// import { generateSnippets } from "@/data";
-import { useSnippet } from "@/hooks/useSnippet";
-import { useAuth } from "@/auth";
+import { Loader, NewSnippetCard, Pagination, SnippetCard } from "@/components";
 import type { SnippetCardType, SnippetsType } from "@/types/snippet";
-import { useSearchParams } from "react-router-dom";
+import { useDashboardFacade } from "@/hooks/useDashboardFacade";
+
+type SnippetSectionProps = {
+  data: SnippetsType;
+  isLoading: boolean;
+  query: URLSearchParams;
+  onClick: (page: number) => void;
+};
+
+function SnippetSection({
+  data,
+  isLoading,
+  onClick = () => {},
+  query,
+}: SnippetSectionProps) {
+  if (isLoading) {
+    return <Loader className="!h-[calc(100vh-250px)]" />;
+  }
+
+  if (data.snippets.length === 0 && !query) {
+    return <NewSnippetCard />;
+  }
+
+  if (data.snippets.length == 0) {
+    return (
+      <div className="w-full h-[calc(100vh-250px)] flex items-center justify-center ">
+        <p className="opacity-70">
+          Snippets not found. please try different query.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <section
+      className={`w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5
+        ${data?.snippets?.length == 0 && "hidden"}
+        `}
+    >
+      {data?.snippets?.map((snippet: SnippetCardType) => (
+        <SnippetCard key={snippet._id} {...snippet} />
+      ))}
+      <Pagination {...data?.meta} onClick={onClick} />
+    </section>
+  );
+}
 
 export function Dashboard() {
-  const { user } = useAuth();
-  const [query, setSearchQuery] = useSearchParams();
-  const { snippetsQueryMutation } = useSnippet();
-  const [value, setQuery] = useState("");
-
-  const handleRefresh = (page: number) => {
-    snippetsQueryMutation.mutate({ page: page });
-  };
-
-  const handleClear = () => {
-    if (query.size > 0) {
-      setSearchQuery({});
-      snippetsQueryMutation.mutate({});
-    }
-  };
-
-  useEffect(() => {
-    const folder = query.get("folder");
-    const language = query.get("language");
-    if (folder) snippetsQueryMutation.mutate({ folder: folder });
-    if (language) snippetsQueryMutation.mutate({ language: language });
-  }, [query]);
-
-  useEffect(() => {
-    snippetsQueryMutation.mutate({ limit: 10 });
-  }, []);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      snippetsQueryMutation.mutate({ search: value });
-    }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, setQuery]);
-
-  const data = snippetsQueryMutation.data as unknown as SnippetsType;
+  const { handleClear, handleFetch, setQuery, user, isLoading, data, query } =
+    useDashboardFacade();
 
   return (
     <>
@@ -77,19 +82,12 @@ export function Dashboard() {
           </button>
         </div>
       </section>
-
-      {data?.snippets?.length == 0 && <NewSnippetCard />}
-
-      <section
-        className={`w-full sm:w-[90%] flex flex-col gap-4 mx-auto px-3 py-5
-        ${data?.snippets?.length == 0 && "hidden"}
-        `}
-      >
-        {data?.snippets?.map((snippet: SnippetCardType) => (
-          <SnippetCard key={snippet._id} {...snippet} />
-        ))}
-        <Pagination {...data?.meta} onClick={handleRefresh} />
-      </section>
+      <SnippetSection
+        isLoading={isLoading}
+        data={data}
+        onClick={handleFetch}
+        query={query}
+      />
     </>
   );
 }
