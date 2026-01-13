@@ -20,11 +20,11 @@ function SnippetSection({
     return <Loader className="!h-[calc(100vh-250px)]" />;
   }
 
-  if (data.snippets.length === 0 && !query) {
+  if (data?.snippets.length === 0 && !query) {
     return <NewSnippetCard />;
   }
 
-  if (data.snippets.length == 0) {
+  if (data?.snippets.length == 0) {
     return (
       <div className="w-full h-[calc(100vh-250px)] flex items-center justify-center ">
         <p className="opacity-70">
