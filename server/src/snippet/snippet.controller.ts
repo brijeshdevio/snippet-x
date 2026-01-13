@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SnippetService } from './snippet.service';
-import { AuthGuard } from 'src/common';
+import { AuthGuard } from '../common';
 import { CreateSnippetDto, QueryDto } from './dto';
 
 @UseGuards(AuthGuard)

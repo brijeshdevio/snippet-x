@@ -1,4 +1,4 @@
-import { Snippet } from 'src/schema/snippet.schema';
+import { Snippet } from '../schema/snippet.schema';
 
 export interface GetSnippetsType {
   snippets: Snippet[];

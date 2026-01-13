@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getGroqChatCompletion } from 'src/config/groq.config';
+import { getGroqChatCompletion } from '../config/groq.config';
 
 @Injectable()
 export class AiService {

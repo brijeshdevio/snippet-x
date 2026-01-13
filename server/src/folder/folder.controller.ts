@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/common';
+import { AuthGuard } from '../common';
 import { FolderService } from './folder.service';
 import { CreateFolderDto, UpdateFolderDto } from './dto';
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Folder, FolderSchema } from 'src/schema/folder.schema';
+import { Folder, FolderSchema } from '../schema/folder.schema';
 import { FolderService } from './folder.service';
 import { FolderController } from './folder.controller';
 

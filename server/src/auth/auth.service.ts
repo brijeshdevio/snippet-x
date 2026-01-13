@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import argon2 from 'argon2';
-import { User } from 'src/schema/user.schema';
+import { User } from '../schema/user.schema';
 import { LoginDto, RegisterDto } from './dto';
 
 @Injectable()

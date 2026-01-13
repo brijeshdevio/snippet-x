@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { AiService } from './ai.service';
-import { AuthGuard } from 'src/common';
+import { AuthGuard } from '../common';
 
 @UseGuards(AuthGuard)
 @Controller('ai')
@@ -13,6 +13,6 @@ export class AiController {
     @Body() content: { language: string; prompt: string },
     @Res({ passthrough: true }) res: Response,
   ) {
-   return await this.aiService.generateSnippet(content);
+    return await this.aiService.generateSnippet(content);
   }
 }

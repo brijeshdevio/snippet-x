@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
-import { Snippet } from 'src/schema/snippet.schema';
+import { Snippet } from '../schema/snippet.schema';
 import { CreateSnippetDto, QueryDto, UpdateSnippetDto } from './dto';
-import { GetSnippetsType } from 'src/types';
+import { GetSnippetsType } from '../types';
 
 @Injectable()
 export class SnippetService {

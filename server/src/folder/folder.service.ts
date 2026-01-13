@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
-import { Folder } from 'src/schema/folder.schema';
+import { Folder } from '../schema/folder.schema';
 import { CreateFolderDto, UpdateFolderDto } from './dto';
 
 @Injectable()
