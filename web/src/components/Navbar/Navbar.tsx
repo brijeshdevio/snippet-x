@@ -19,17 +19,10 @@ export function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 logo">
           <Blocks className="text-primary" />
-          <span className="text-xl font-semibold hidden sm:block">
+          <span className="text-xl font-semibold">
             Snippet<strong className="text-primary">X</strong>
           </span>
         </Link>
-
-        <form className="w-full md:hidden">
-          <label className="input min-w-full">
-            <Search size={20} className="opacity-70" />
-            <input type="text" placeholder="Search public snippets..." />
-          </label>
-        </form>
 
         <div className="ml-auto md:hidden">
           <button className="btn btn-sm btn-ghost" onClick={handleMenuToggle}>
@@ -97,12 +90,6 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3 ml-auto">
-          <form>
-            <label className="input min-w-[300px]">
-              <Search size={20} className="opacity-70" />
-              <input type="text" placeholder="Search public snippets..." />
-            </label>
-          </form>
           {isAuthenticated ? (
             <>
               <button
