@@ -1,8 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { getProfile } from "@/services/user.service";
-import { isAxiosError } from "axios";
-import { toast } from "sonner";
 import { globalError } from "@/utils";
 
 export function AuthProvider({ children }: { children: ReactNode }) {

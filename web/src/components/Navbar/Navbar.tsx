@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Blocks, Menu, Search, X } from "lucide-react";
+import { Blocks, Menu, X } from "lucide-react";
 import { useAuth } from "@/auth";
 import { useState } from "react";
 import { useLogout } from "@/hooks/useAuth";
